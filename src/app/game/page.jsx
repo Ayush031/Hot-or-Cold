@@ -1,6 +1,4 @@
 "use client";
-
-import Link from "next/link";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -10,12 +8,12 @@ import { message, createDataItemSigner } from "@permaweb/aoconnect";
 
 const processId = "eCsIkWTiukzY23MBFi4t3V34ZvyMHC1rZcX18vsmwvg";
 
-export default function Game() {
+export default function Page() {
   const { toast } = useToast();
   const [voted, setVoted] = useState(null);
   const [hotCount, setHotCount] = useState(0);
   const [coldCount, setColdCount] = useState(0);
-  const { connected, connect, disconnect } = useConnection();
+  const { connected, disconnect } = useConnection();
 
   const handleDisconnectWallet = async () => {
     try {
@@ -38,10 +36,7 @@ export default function Game() {
         data: `Send({Target=${processId},Action="Vote",Vote={${voteType}, count=${count}}})`,
       });
 
-      // const postResult = await post({
-      //   process: processId,
-      //   message: res,
-      // });
+      
     } catch (e) {
       console.error(e);
     }
