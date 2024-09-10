@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ConnectButton, useConnection } from "arweave-wallet-kit";
+import { useConnection } from "arweave-wallet-kit";
+import { ConnectButton } from "@/components/Buttons";
 
 export default function LandingPage() {
-  
   const { connected } = useConnection();
 
   return (
@@ -19,13 +19,7 @@ export default function LandingPage() {
             <Button className="bg-black ring-4">Explore AO-Smash</Button>
           </Link>
         ) : (
-          <ConnectButton
-            profileModal={true}
-            showBalance={false}
-            showAddress={false}
-            accent=""
-            showProfilePicture={true}
-          />
+          <ConnectButton />
         )}
       </section>
     </div>
