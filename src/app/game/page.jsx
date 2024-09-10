@@ -1,48 +1,53 @@
 "use client";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { ConnectButton, useConnection } from "arweave-wallet-kit";
-import LandingPage, { RatingButton } from "@/components/landing-page";
+import { useConnection } from "arweave-wallet-kit";
+import VoteButton from "@/components/LoadingButton";
 import { message, createDataItemSigner } from "@permaweb/aoconnect";
+import { DisconnectButton, ConnectButton } from "@/components/Buttons";
 
 const processId = "eCsIkWTiukzY23MBFi4t3V34ZvyMHC1rZcX18vsmwvg";
 
 export default function Page() {
   const { toast } = useToast();
+  const { connected } = useConnection();
+
+  const [popularityIndex, setPopularityIndex] = useState(0);
   const [voted, setVoted] = useState(null);
-  const [hotCount, setHotCount] = useState(0);
-  const [coldCount, setColdCount] = useState(0);
-  const { connected, disconnect } = useConnection();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleDisconnectWallet = async () => {
-    try {
-      if (!window.arweaveWallet) return;
-      await disconnect();
-    } catch (e) {
-      console.error("Error disconnecting wallet", e);
-    }
-  };
-
-  const updateVote = async (voteType) => {
+  const updateVote = async (voteType, popularityChange) => {
+    if (isLoading) return;
+    setIsLoading(true);
     await window.arweaveWallet.connect(["ACCESS_ADDRESS", "SIGN_TRANSACTION"]);
 
     try {
-      const count = voteType === "hot" ? hotCount : coldCount;
-      const res = await message({
+      await message({
         process: processId,
         signer: createDataItemSigner(window.arweaveWallet),
         tags: [{ name: "Action", value: "Vote" }],
-        data: `Send({Target=${processId},Action="Vote",Vote={${voteType}, count=${count}}})`,
+        data: `Send({Target=${processId},Action="Vote",Vote={${voteType},PopularityIndex=${popularityIndex}}})`,
+      });
+      toast({
+        title: `Voted ${voteType.charAt(0).toUpperCase() + voteType.slice(1)}`,
+        description: "Your vote has been cast.",
       });
 
-      
+      setIsLoading(false);
     } catch (e) {
       console.error(e);
+      toast({
+        title: "Vote Error",
+        description: "There was an error casting your vote.",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleVoteCount = async (vote) => {
+    if (isLoading) return;
+
     if (voted === vote) {
       toast({
         title: `Already Voted ${vote.charAt(0).toUpperCase() + vote.slice(1)}`,
@@ -51,55 +56,56 @@ export default function Page() {
       return;
     }
 
+    let newPopularityIndex = popularityIndex;
     if (voted) {
-      const voteAction = voted === "hot" ? setHotCount : setColdCount;
-      voteAction((prev) => prev - 1);
-      await updateVote(voted);
+      // User has already voted, so adjust the popularity index back
+      newPopularityIndex = vote === "hot" ? popularityIndex - 1 : popularityIndex + 1;
+      await updateVote(voted, newPopularityIndex);
     }
 
-    const newVoteAction = vote === "hot" ? setHotCount : setColdCount;
-    newVoteAction((prev) => prev + 1);
-    await updateVote(vote);
+    // Adjust popularity index for the new vote
+    newPopularityIndex = vote === "hot" ? popularityIndex + 1 : popularityIndex - 1;
+    setPopularityIndex(newPopularityIndex);
+    await updateVote(vote, newPopularityIndex);
 
     setVoted(vote);
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center gap-16">
       {connected ? (
         <>
           <div className="flex items-center flex-col justify-center">
             <h1 className="text-white text-3xl font-bold my-8">
               Hot or Cold NFT Rating Game
             </h1>
-            <Button
-              className="bg-black ring-4"
-              onClick={handleDisconnectWallet}
-            >
-              Disconnect Wallet
-            </Button>
+            <DisconnectButton />
           </div>
-          <div className="flex flex-col items-center justify-center">
-            <LandingPage hotCount={hotCount} coldCount={coldCount} />
-            <div className="relative flex justify-center items-center w-full">
-              <RatingButton
-                outerClassName="relative flex justify-center items-center w-full"
-                btnClass="basis-1/5 h-16"
-                iconClass="h-auto w-8"
-                onClickHot={() => handleVoteCount("hot")}
-                onClickCold={() => handleVoteCount("cold")}
-                voted={voted}
+          <div className="gap-10 flex flex-col items-center justify-center w-full">
+            <img
+              alt="title"
+              className=""
+              src="https://arweave.net/so2QsStBZwRmSuyK2aBBlMr9zcqKsa8glhQVu0koE9Q"
+            />
+            <div className="relative flex justify-center items-center w-full gap-10">
+              <VoteButton
+                label="Hot"
+                isLoading={isLoading && voted === "hot"}
+                onClick={() => handleVoteCount("hot")}
               />
+              <VoteButton
+                label="Cold"
+                isLoading={isLoading && voted === "cold"}
+                onClick={() => handleVoteCount("cold")}
+              />
+            </div>
+            <div className="text-white mt-4">
+              Popularity Index: {popularityIndex}
             </div>
           </div>
         </>
       ) : (
-        <ConnectButton
-          profileModal={true}
-          showBalance={false}
-          showAddress={false}
-          showProfilePicture={true}
-        />
+        <ConnectButton />
       )}
     </div>
   );
