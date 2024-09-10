@@ -15,7 +15,7 @@ export default function Game() {
   const [voted, setVoted] = useState(null);
   const [hotCount, setHotCount] = useState(0);
   const [coldCount, setColdCount] = useState(0);
-  const { connected, disconnect } = useConnection();
+  const { connected, connect, disconnect } = useConnection();
 
   const handleDisconnectWallet = async () => {
     try {
@@ -27,14 +27,21 @@ export default function Game() {
   };
 
   const updateVote = async (voteType) => {
+    await window.arweaveWallet.connect(["ACCESS_ADDRESS", "SIGN_TRANSACTION"]);
+
     try {
       const count = voteType === "hot" ? hotCount : coldCount;
-      await message({
+      const res = await message({
         process: processId,
         signer: createDataItemSigner(window.arweaveWallet),
         tags: [{ name: "Action", value: "Vote" }],
         data: `Send({Target=${processId},Action="Vote",Vote={${voteType}, count=${count}}})`,
       });
+
+      // const postResult = await post({
+      //   process: processId,
+      //   message: res,
+      // });
     } catch (e) {
       console.error(e);
     }
@@ -70,7 +77,10 @@ export default function Game() {
             <h1 className="text-white text-3xl font-bold my-8">
               Hot or Cold NFT Rating Game
             </h1>
-            <Button className="bg-black ring-4" onClick={handleDisconnectWallet}>
+            <Button
+              className="bg-black ring-4"
+              onClick={handleDisconnectWallet}
+            >
               Disconnect Wallet
             </Button>
           </div>

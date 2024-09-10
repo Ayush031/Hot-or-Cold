@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ConnectButton, useConnection } from "arweave-wallet-kit";
 
 export default function LandingPage() {
+  
   const { connected } = useConnection();
 
   return (
