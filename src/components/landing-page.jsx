@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-export default function LandingPage({ coldCount, hotCount }) {
+export default ({ coldCount, hotCount }) => {
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
       <div className="bg-background border border-muted rounded-lg overflow-hidden shadow-lg">
@@ -35,7 +35,7 @@ export default function LandingPage({ coldCount, hotCount }) {
       </div>
     </div>
   );
-}
+};
 export function RatingButton({ onClickHot, onClickCold, voted, ...props }) {
   return (
     <div
@@ -45,7 +45,9 @@ export function RatingButton({ onClickHot, onClickCold, voted, ...props }) {
         size="sm"
         variant="outline"
         className={`border border-red-500/50 ${
-          voted === "hot" ? "bg-red-500 hover:bg-red-500" : "hover:bg-red-500/50"
+          voted === "hot"
+            ? "bg-red-500 hover:bg-red-500"
+            : "hover:bg-red-500/50"
         } ${props.btnClass}`}
         onClick={onClickHot}
       >
@@ -59,7 +61,9 @@ export function RatingButton({ onClickHot, onClickCold, voted, ...props }) {
         size="sm"
         variant="outline"
         className={`border border-blue-500/50 ${
-          voted === "cold" ? "bg-blue-500 hover:bg-blue-500" : "hover:bg-blue-500/50"
+          voted === "cold"
+            ? "bg-blue-500 hover:bg-blue-500"
+            : "hover:bg-blue-500/50"
         } ${props.btnClass}`}
         onClick={onClickCold}
       >

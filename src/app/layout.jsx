@@ -1,18 +1,7 @@
-import localFont from "next/font/local";
 import { Toaster } from "@/components/ui/toaster";
+import { ArweaveWalletKit } from "arweave-wallet-kit";
 import "./globals.css";
-
-const geistSans = localFont({
-  src: "../fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
-const geistMono = localFont({
-  src: "../fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+// import {ArConnectStrategy} from "arweave-wallet-kit/dist/strategy/strategies/ArConnect";
 
 export const metadata = {
   title: "Create Next App",
@@ -22,9 +11,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <main>{children}</main>
-        <Toaster />
+      <body>
+        <ArweaveWalletKit config={{
+          permissions:['ACCESS_ADDRESS','ACCESS_ALL_ADDRESSES', 'SIGN_TRANSACTION', 'DISPATCH'],
+          ensurePermissions: true,
+          // strategies:[new ArConnectStrategy()]
+        }} >
+          <main>{children}</main>
+          <Toaster />
+        </ArweaveWalletKit>
       </body>
     </html>
   );
