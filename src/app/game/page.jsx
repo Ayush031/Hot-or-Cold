@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useConnection } from "arweave-wallet-kit";
 import VoteButton from "@/components/LoadingButton";
 import { message, createDataItemSigner } from "@permaweb/aoconnect";
 import { DisconnectButton, ConnectButton } from "@/components/Buttons";
+import { Main } from "@/hooks/fetch";
 
 const processId = "eCsIkWTiukzY23MBFi4t3V34ZvyMHC1rZcX18vsmwvg";
 
@@ -15,6 +16,20 @@ export default function Page() {
   const [popularityIndex, setPopularityIndex] = useState(0);
   const [voted, setVoted] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [tokens, setTokens] = useState([]);
+  const [currentTokenIndex, setCurrentTokenIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchTokens = async () => {
+      const tokenList = await Main();
+      setTokens(tokenList);
+      if (tokenList.length > 0) {
+        setCurrentTokenIndex(0);
+      }
+    };
+
+    fetchTokens();
+  }, []);
 
   const updateVote = async (voteType, popularityChange) => {
     if (isLoading) return;
@@ -59,35 +74,56 @@ export default function Page() {
     let newPopularityIndex = popularityIndex;
     if (voted) {
       // User has already voted, so adjust the popularity index back
-      newPopularityIndex = vote === "hot" ? popularityIndex - 1 : popularityIndex + 1;
+      newPopularityIndex =
+        vote === "hot" ? popularityIndex - 1 : popularityIndex + 1;
       await updateVote(voted, newPopularityIndex);
     }
 
     // Adjust popularity index for the new vote
-    newPopularityIndex = vote === "hot" ? popularityIndex + 1 : popularityIndex - 1;
+    newPopularityIndex =
+      vote === "hot" ? popularityIndex + 1 : popularityIndex - 1;
     setPopularityIndex(newPopularityIndex);
     await updateVote(vote, newPopularityIndex);
 
     setVoted(vote);
   };
 
+  const handleNextToken = () => {
+    if (tokens.length === 0) return;
+    setCurrentTokenIndex((prevIndex) => (prevIndex + 1) % tokens.length);
+  };
+
+  const currentToken = tokens[currentTokenIndex] || "";
+
   return (
     <div className="flex flex-col items-center justify-center gap-16">
       {connected ? (
         <>
-          <div className="flex items-center flex-col justify-center">
-            <h1 className="text-white text-3xl font-bold my-8">
+          <div className="flex flex-col items-center justify-center">
+            <h1 className="my-8 text-3xl font-bold text-white">
               Hot or Cold NFT Rating Game
             </h1>
             <DisconnectButton />
           </div>
-          <div className="gap-10 flex flex-col items-center justify-center w-full">
-            <img
-              alt="title"
-              className=""
-              src="https://arweave.net/so2QsStBZwRmSuyK2aBBlMr9zcqKsa8glhQVu0koE9Q"
-            />
-            <div className="relative flex justify-center items-center w-full gap-10">
+
+          <div className="flex flex-col items-center justify-center w-full gap-10">
+            <div className="relative flex items-center justify-center gap-10 w-80 mx-xd h-80">
+              <div
+                className="w-full h-full bg-center bg-cover"
+                style={{
+                  backgroundImage: `url(https://arweave.net/${currentToken})`,
+                }}
+              />
+              
+              <button
+                onClick={handleNextToken}
+                className="p-2 mt-4 text-white bg-blue-500 rounded"
+              >
+                Next Image
+              </button>
+              
+            </div>
+            <div className="relative flex items-center justify-center w-full gap-10 mt-4">
               <VoteButton
                 label="Hot"
                 isLoading={isLoading && voted === "hot"}
@@ -99,7 +135,7 @@ export default function Page() {
                 onClick={() => handleVoteCount("cold")}
               />
             </div>
-            <div className="text-white mt-4">
+            <div className="mt-4 text-white">
               Popularity Index: {popularityIndex}
             </div>
           </div>
