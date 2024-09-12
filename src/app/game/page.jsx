@@ -105,19 +105,23 @@ export default function Page() {
             </h1>
             <DisconnectButton />
           </div>
+
           <div className="flex flex-col items-center justify-center w-full gap-10">
-            <div className="relative flex items-center justify-center gap-10 mx-xd">
-              <iframe
-                title="NFT Image"
-                src={`https://arweave.net/${currentToken}`}
-                className="w-full border-none h-80"
+            <div className="relative flex items-center justify-center gap-10 w-80 mx-xd h-80">
+              <div
+                className="w-full h-full bg-center bg-cover"
+                style={{
+                  backgroundImage: `url(https://arweave.net/${currentToken})`,
+                }}
               />
+              
               <button
                 onClick={handleNextToken}
                 className="p-2 mt-4 text-white bg-blue-500 rounded"
               >
                 Next Image
               </button>
+              
             </div>
             <div className="relative flex items-center justify-center w-full gap-10 mt-4">
               <VoteButton
