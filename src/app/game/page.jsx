@@ -1,148 +1,192 @@
 "use client";
-import { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
+
+import { useEffect, useState } from "react";
 import { useConnection } from "arweave-wallet-kit";
-import VoteButton from "@/components/LoadingButton";
 import { message, createDataItemSigner } from "@permaweb/aoconnect";
 import { DisconnectButton, ConnectButton } from "@/components/Buttons";
 import { Main } from "@/hooks/fetch";
+import { useToast } from "@/hooks/use-toast";
+import { ScrollView, Window, WindowContent, WindowHeader } from "react95";
+import { ThemeProvider } from "styled-components";
+import original from "react95/dist/themes/original";
+import { ProgressBar } from "react95";
+import { Toolbar, Button, Separator } from "react95";
+import { BazarIcon } from "@/components/icons";
+import {
+  ArrowBigLeftDash,
+  ArrowBigRightDash,
+  ExternalLink,
+} from "lucide-react";
+import Link from "next/link";
 
 const processId = "eCsIkWTiukzY23MBFi4t3V34ZvyMHC1rZcX18vsmwvg";
 
 export default function Page() {
   const { toast } = useToast();
   const { connected } = useConnection();
-
-  const [popularityIndex, setPopularityIndex] = useState(0);
-  const [voted, setVoted] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [tokens, setTokens] = useState([]);
-  const [currentTokenIndex, setCurrentTokenIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentTokenPair, setCurrentTokenPair] = useState([null, null]);
+  const [percent, setPercent] = useState(0);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchTokens = async () => {
       const tokenList = await Main();
       setTokens(tokenList);
-      if (tokenList.length > 0) {
-        setCurrentTokenIndex(0);
+      if (tokenList.length > 1) {
+        setCurrentTokenPair([tokenList[0], tokenList[1]]);
       }
+
+      const loadTime = tokenList.length > 5 ? 2000 : 1000;
+      setTimeout(() => {
+        setIsLoading(false);
+      }, loadTime);
+
+      const progressInterval = setInterval(() => {
+        setPercent((prevPercent) => {
+          if (prevPercent >= 100) {
+            clearInterval(progressInterval);
+            return 100;
+          }
+          return prevPercent + 10;
+        });
+      }, 100);
+
+      return () => clearInterval(progressInterval);
     };
 
     fetchTokens();
   }, []);
 
-  const updateVote = async (voteType, popularityChange) => {
+  const updateVote = async (selectedToken) => {
     if (isLoading) return;
     setIsLoading(true);
+
     await window.arweaveWallet.connect(["ACCESS_ADDRESS", "SIGN_TRANSACTION"]);
 
     try {
       await message({
         process: processId,
         signer: createDataItemSigner(window.arweaveWallet),
-        tags: [{ name: "Action", value: "Vote" }],
-        data: `Send({Target=${processId},Action="Vote",Vote={${voteType},PopularityIndex=${popularityIndex}}})`,
+        tags: [{ name: "Action", value: "Smash" }],
+        data: `Send({Target=${processId},Action="Smash",Token=${selectedToken}})`,
       });
       toast({
-        title: `Voted ${voteType.charAt(0).toUpperCase() + voteType.slice(1)}`,
-        description: "Your vote has been cast.",
+        title: "Smash Success",
+        description: "You successfully smashed the NFT.",
       });
+
+      const newPair = tokens.slice(2);
+      setTokens(newPair);
+      if (newPair.length >= 2) {
+        setCurrentTokenPair([newPair[0], newPair[1]]);
+      } else {
+        setCurrentTokenPair([null, null]); // No more tokens
+      }
 
       setIsLoading(false);
     } catch (e) {
       console.error(e);
       toast({
-        title: "Vote Error",
-        description: "There was an error casting your vote.",
+        title: "Smash Error",
+        description: "There was an error processing your smash.",
       });
-    } finally {
       setIsLoading(false);
     }
   };
 
-  const handleVoteCount = async (vote) => {
-    if (isLoading) return;
-
-    if (voted === vote) {
-      toast({
-        title: `Already Voted ${vote.charAt(0).toUpperCase() + vote.slice(1)}`,
-        description: "You have already cast your vote.",
-      });
-      return;
-    }
-
-    let newPopularityIndex = popularityIndex;
-    if (voted) {
-      // User has already voted, so adjust the popularity index back
-      newPopularityIndex =
-        vote === "hot" ? popularityIndex - 1 : popularityIndex + 1;
-      await updateVote(voted, newPopularityIndex);
-    }
-
-    // Adjust popularity index for the new vote
-    newPopularityIndex =
-      vote === "hot" ? popularityIndex + 1 : popularityIndex - 1;
-    setPopularityIndex(newPopularityIndex);
-    await updateVote(vote, newPopularityIndex);
-
-    setVoted(vote);
+  const handleVisitWebsite = () => {
+    window.open("https://example.com", "_blank");
   };
-
-  const handleNextToken = () => {
-    if (tokens.length === 0) return;
-    setCurrentTokenIndex((prevIndex) => (prevIndex + 1) % tokens.length);
-  };
-
-  const currentToken = tokens[currentTokenIndex] || "";
 
   return (
-    <div className="flex flex-col items-center justify-center gap-16">
-      {connected ? (
-        <>
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="my-8 text-3xl font-bold text-white">
-              Hot or Cold NFT Rating Game
-            </h1>
-            <DisconnectButton />
-          </div>
+    <ThemeProvider theme={original}>
+      <Window className="h-screen w-screen">
+        <WindowHeader className="w-full">
+          <span role="img" aria-label="Kiwi">
+            🥝
+          </span>
+          BazARmash
+        </WindowHeader>
 
-          <div className="flex flex-col items-center justify-center w-full gap-10">
-            <div className="relative flex items-center justify-center gap-10 w-80 mx-xd h-80">
-              <div
-                className="w-full h-full bg-center bg-cover"
-                style={{
-                  backgroundImage: `url(https://arweave.net/${currentToken})`,
-                }}
-              />
-              
-              <button
-                onClick={handleNextToken}
-                className="p-2 mt-4 text-white bg-blue-500 rounded"
+        <Toolbar noPadding className="flex flex-wrap">
+            <Link href={'https://bazar.arweave.dev'} target="_blank" >
+          <Button variant="raised" className="flex items-center gap-3">
+              <BazarIcon height={22} width={22} />
+              <span>Bazar</span>
+          </Button>
+            </Link>
+          {connected ? (
+            <>
+              <DisconnectButton variant={"raised"} />
+              <Button
+                variant="raised"
+                onClick={() => setOpen(!open)}
+                active={open}
               >
-                Next Image
-              </button>
-              
+                Share
+              </Button>
+            </>
+          ) : (
+            <ConnectButton />
+          )}
+        </Toolbar>
+
+        <WindowContent>
+          {isLoading ? (
+            <div className="flex flex-col items-center gap-4">
+              <ProgressBar value={percent} />
+              <p className="text-black text-lg">Loading NFTs...</p>
             </div>
-            <div className="relative flex items-center justify-center w-full gap-10 mt-4">
-              <VoteButton
-                label="Hot"
-                isLoading={isLoading && voted === "hot"}
-                onClick={() => handleVoteCount("hot")}
-              />
-              <VoteButton
-                label="Cold"
-                isLoading={isLoading && voted === "cold"}
-                onClick={() => handleVoteCount("cold")}
-              />
+          ) : currentTokenPair[0] && currentTokenPair[1] ? (
+            <div className="flex items-center gap-8">
+              <Window>
+                <WindowHeader className="flex justify-between items-center">
+                  <span>NFT Name</span>
+                  <ExternalLink />
+                </WindowHeader>
+                <div
+                  className="w-80 h-80 bg-center bg-cover cursor-pointer"
+                  style={{
+                    backgroundImage: `url(https://arweave.net/${currentTokenPair[0]})`,
+                  }}
+                  onClick={() => updateVote(currentTokenPair[0])}
+                />
+              </Window>
+              <ScrollView className="text-center">
+                <div className="flex justify-center items-center gap-4">
+                  <Button>
+                    <ArrowBigLeftDash />
+                  </Button>
+                  <span>Smash</span>
+                  <Button>
+                    <ArrowBigRightDash />
+                  </Button>
+                </div>
+              </ScrollView>
+
+              <Window>
+                <WindowHeader className="flex justify-between items-center">
+                  <span>NFT Name</span>
+                  <ExternalLink />
+                </WindowHeader>
+                <ScrollView>
+                  <div
+                    className="w-80 h-80 bg-center bg-cover cursor-pointer"
+                    style={{
+                      backgroundImage: `url(https://arweave.net/${currentTokenPair[1]})`,
+                    }}
+                    onClick={() => updateVote(currentTokenPair[1])}
+                  />
+                </ScrollView>
+              </Window>
             </div>
-            <div className="mt-4 text-white">
-              Popularity Index: {popularityIndex}
-            </div>
-          </div>
-        </>
-      ) : (
-        <ConnectButton />
-      )}
-    </div>
+          ) : (
+            <div className="text-white">No more NFTs to smash!</div>
+          )}
+        </WindowContent>
+      </Window>
+    </ThemeProvider>
   );
 }

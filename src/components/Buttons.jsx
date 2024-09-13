@@ -1,5 +1,6 @@
-import { Button } from "./ui/button";
+// import { Button } from "./ui/button";
 import { ConnectButton as Connect, useConnection } from "arweave-wallet-kit";
+import { Button } from "react95";
 
 export const ConnectButton = () => {
   return (
@@ -12,7 +13,7 @@ export const ConnectButton = () => {
   );
 };
 
-export const DisconnectButton = () => {
+export const DisconnectButton = ({variant}) => {
   const { disconnect } = useConnection();
 
   const handleDisconnectWallet = async () => {
@@ -25,8 +26,8 @@ export const DisconnectButton = () => {
   };
 
   return (
-    <Button className="bg-black ring-4" onClick={handleDisconnectWallet}>
-      Disconnect Wallet
-    </Button>
+    <Button variant={variant} onCick={handleDisconnectWallet}>Disconnect Wallet</Button>
+    // <Button className="bg-black ring-4" onClick={handleDisconnectWallet}>
+    // </Button>
   );
 };
