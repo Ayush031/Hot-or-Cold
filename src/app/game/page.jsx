@@ -156,11 +156,11 @@ export default function Page() {
               </Window>
               <ScrollView className="text-center">
                 <div className="flex justify-center items-center gap-4">
-                  <Button>
+                  <Button onClick={() => updateVote(currentTokenPair[0])}>
                     <ArrowBigLeftDash />
                   </Button>
                   <span>Smash</span>
-                  <Button>
+                  <Button onClick={()=> updateVote(currentTokenPair[1])}>
                     <ArrowBigRightDash />
                   </Button>
                 </div>
