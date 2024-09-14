@@ -12,7 +12,7 @@ export default function LandingPage() {
     <div className="flex items-center justify-center h-full text-center">
       <section className="text-center flex items-center justify-center flex-col">
         <h1 className="text-white text-3xl font-bold my-8">
-          Hot or Cold NFT Rating Game
+          Tinder of NFTs on Arweave {"(AO)"}
         </h1>
         {connected ? (
           <Link href="/game">

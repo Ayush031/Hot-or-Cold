@@ -1,25 +1,32 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useConnection } from "arweave-wallet-kit";
-import { message, createDataItemSigner } from "@permaweb/aoconnect";
-import { DisconnectButton, ConnectButton } from "@/components/Buttons";
 import { Main } from "@/hooks/fetch";
 import { useToast } from "@/hooks/use-toast";
-import { ScrollView, Window, WindowContent, WindowHeader } from "react95";
 import { ThemeProvider } from "styled-components";
 import original from "react95/dist/themes/original";
-import { ProgressBar } from "react95";
-import { Toolbar, Button, Separator } from "react95";
-import { BazarIcon } from "@/components/icons";
+import { ConnectButton } from "@/components/Buttons";
+import { useConnection } from "arweave-wallet-kit";
+import { message, createDataItemSigner } from "@permaweb/aoconnect";
+import {
+  ScrollView,
+  Window,
+  WindowContent,
+  WindowHeader,
+  Toolbar,
+  Button,
+  Separator,
+  ProgressBar,
+} from "react95";
 import {
   ArrowBigLeftDash,
   ArrowBigRightDash,
   ExternalLink,
 } from "lucide-react";
-import Link from "next/link";
+import { BazarIcon } from "@/components/icons";
 
-const processId = "eCsIkWTiukzY23MBFi4t3V34ZvyMHC1rZcX18vsmwvg";
+const processId = "Jb5tOgQ4ROvf3V_50MT9Mvc4GT7cLuAAKUohPpi4H-Q";
 
 export default function Page() {
   const { toast } = useToast();
@@ -28,7 +35,6 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentTokenPair, setCurrentTokenPair] = useState([null, null]);
   const [percent, setPercent] = useState(0);
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchTokens = async () => {
@@ -70,7 +76,7 @@ export default function Page() {
         process: processId,
         signer: createDataItemSigner(window.arweaveWallet),
         tags: [{ name: "Action", value: "Smash" }],
-        data: `Send({Target=${processId},Action="Smash",Token=${selectedToken}})`,
+        data: selectedToken,
       });
       toast({
         title: "Smash Success",
@@ -82,7 +88,7 @@ export default function Page() {
       if (newPair.length >= 2) {
         setCurrentTokenPair([newPair[0], newPair[1]]);
       } else {
-        setCurrentTokenPair([null, null]); // No more tokens
+        setCurrentTokenPair([null, null]);
       }
 
       setIsLoading(false);
@@ -96,10 +102,6 @@ export default function Page() {
     }
   };
 
-  const handleVisitWebsite = () => {
-    window.open("https://example.com", "_blank");
-  };
-
   return (
     <ThemeProvider theme={original}>
       <Window className="h-screen w-screen">
@@ -109,34 +111,23 @@ export default function Page() {
           </span>
           BazARmash
         </WindowHeader>
-
-        <Toolbar noPadding className="flex flex-wrap">
-            <Link href={'https://bazar.arweave.dev'} target="_blank" >
-          <Button variant="raised" className="flex items-center gap-3">
+        <Toolbar
+          noPadding
+          className="flex flex-wrap justify-between items-center my-1 mx-10"
+        >
+          <Link href={"https://bazar.arweave.dev"} target="_blank">
+            <Button variant="raised" className="flex items-center gap-3">
               <BazarIcon height={22} width={22} />
               <span>Bazar</span>
-          </Button>
-            </Link>
-          {connected ? (
-            <>
-              <DisconnectButton variant={"raised"} />
-              <Button
-                variant="raised"
-                onClick={() => setOpen(!open)}
-                active={open}
-              >
-                Share
-              </Button>
-            </>
-          ) : (
-            <ConnectButton />
-          )}
+            </Button>
+          </Link>
+          <ConnectButton />
         </Toolbar>
-
-        <WindowContent>
+        <Separator />
+        <WindowContent className="flex justify-center">
           {isLoading ? (
-            <div className="flex flex-col items-center gap-4">
-              <ProgressBar value={percent} />
+            <div className="w-full text-center">
+              <ProgressBar value={percent} width={"100%"} />
               <p className="text-black text-lg">Loading NFTs...</p>
             </div>
           ) : currentTokenPair[0] && currentTokenPair[1] ? (
@@ -165,7 +156,6 @@ export default function Page() {
                   </Button>
                 </div>
               </ScrollView>
-
               <Window>
                 <WindowHeader className="flex justify-between items-center">
                   <span>NFT Name</span>
@@ -186,6 +176,7 @@ export default function Page() {
             <div className="text-white">No more NFTs to smash!</div>
           )}
         </WindowContent>
+        <Separator />
       </Window>
     </ThemeProvider>
   );
