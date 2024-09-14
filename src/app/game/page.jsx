@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { BazarIcon } from "@/components/icons";
 
-const processId = "Jb5tOgQ4ROvf3V_50MT9Mvc4GT7cLuAAKUohPpi4H-Q";
+const processId = "P0Hw4GQzawz8y6Jk4JhGxGkpi7sz6cvk0bmvXu_UwSs";
 
 export default function Page() {
   const { toast } = useToast();
@@ -36,6 +36,8 @@ export default function Page() {
   const [currentTokenPair, setCurrentTokenPair] = useState([null, null]);
   const [percent, setPercent] = useState(0);
 
+
+  //fetched tokens
   useEffect(() => {
     const fetchTokens = async () => {
       const tokenList = await Main();
@@ -49,6 +51,8 @@ export default function Page() {
         setIsLoading(false);
       }, loadTime);
 
+
+      // for progress bar
       const progressInterval = setInterval(() => {
         setPercent((prevPercent) => {
           if (prevPercent >= 100) {
@@ -65,6 +69,7 @@ export default function Page() {
     fetchTokens();
   }, []);
 
+  //update vote when smashed
   const updateVote = async (selectedToken) => {
     if (isLoading) return;
     setIsLoading(true);
@@ -75,7 +80,7 @@ export default function Page() {
       await message({
         process: processId,
         signer: createDataItemSigner(window.arweaveWallet),
-        tags: [{ name: "Action", value: "Smash" }],
+        tags: [{ name: "Action", value: "smash" }],
         data: selectedToken,
       });
       toast({
