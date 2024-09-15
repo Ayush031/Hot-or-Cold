@@ -25,68 +25,52 @@ import {
   ArrowBigRightDash,
   ExternalLink,
 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { BazarIcon } from "@/components/icons";
 
 const processId = "qXjKuUAqnzi9vXmGgZ-U3KExQv1J8UqQ-zZYDwfYCHQ";
 
-export default function Page() {
+export default () =>{
   const { toast } = useToast();
   const { connected } = useConnection();
   const [tokens, setTokens] = useState([]);
-  const [percent, setPercent] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTokenPair, setCurrentTokenPair] = useState([null, null]);
   const [percent, setPercent] = useState(0);
   const [TokenScore, setTokenScore] = useState({});
 
+  // Helper function to shuffle the tokens
+  const shuffleTokens = (tokenList) => {
+    for (let i = tokenList.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [tokenList[i], tokenList[j]] = [tokenList[j], tokenList[i]];
+    }
+    return tokenList;
+  };
+
   // Fetch tokens and manage progress bar
   useEffect(() => {
     const fetchTokens = async () => {
-      // Pass current tokens to exclude them from the next fetch
-      const tokenList = await Main(tokens);
-
-      if (tokenList.length > 1) {
-        const randomIndexes = [];
-        while (randomIndexes.length < 2 && tokenList.length > 0) {
-          const index = Math.floor(Math.random() * tokenList.length);
-          if (!randomIndexes.includes(index)) {
-            randomIndexes.push(index);
-          }
-        }
-        setCurrentTokenPair([
-          tokenList[randomIndexes[0]],
-          tokenList[randomIndexes[1]],
-        ]);
-      } else {
-        setCurrentTokenPair([null, null]);
+      const tokenList = await Main();
+      const shuffledTokens = shuffleTokens(tokenList); // Shuffle tokens
+      setTokens(shuffledTokens);
+      if (shuffledTokens.length > 1) {
+        setCurrentTokenPair([shuffledTokens[0], shuffledTokens[1]]);
       }
 
-      const loadTime = tokenList.length > 5 ? 2000 : 1000;
-      const totalDuration = 2000; // Total duration for the progress bar in ms
+      const loadTime = shuffledTokens.length > 5 ? 2000 : 1000;
+      setTimeout(() => {
+        setIsLoading(false);
+      }, loadTime);
 
-      // Set the interval for updating the progress bar
       const progressInterval = setInterval(() => {
         setPercent((prevPercent) => {
           if (prevPercent >= 100) {
             clearInterval(progressInterval);
             return 100;
           }
-          return prevPercent + (100 * 100 / totalDuration / (loadTime / 100));
+          return prevPercent + 10;
         });
       }, 100);
-
-      // Simulate the loading process
-      setTimeout(() => {
-        setIsLoading(false);
-        clearInterval(progressInterval);
-      }, loadTime);
 
       return () => clearInterval(progressInterval);
     };
@@ -105,7 +89,6 @@ export default function Page() {
 
         if (result.Messages[0].Data) {
           const Scores = JSON.parse(result.Messages[0].Data);
-          console.log(Scores);
           setTokenScore(Scores);
         } else {
           console.error("No data found in result.Messages");
@@ -115,10 +98,6 @@ export default function Page() {
       }
     };
     GetScore();
-  }, [TokenScore]);
-
-  useEffect(() => {
-    console.log("TokenScore:", TokenScore);
   }, [TokenScore]);
 
   // Update vote when smashed
@@ -140,31 +119,16 @@ export default function Page() {
         description: "You successfully smashed the NFT.",
       });
 
-      const response = await dryrun({
-        process: processId,
-        action: "GetSmashedTokens",
-        tags: [{ name: "Query", value: "GetTokens" }],
-      });
+      // Generate a random pair after smashing
+      const remainingTokens = tokens.filter(
+        (token) => token !== currentTokenPair[0] && token !== currentTokenPair[1]
+      );
+      const shuffledRemaining = shuffleTokens(remainingTokens);
 
-      console.log(response);
+      setTokens(shuffledRemaining);
 
-      const newPair = tokens.filter((token) => token !== selectedToken);
-      setTokens(newPair);
-
-      // Trigger new random token pair
-      const newTokenList = await Main(newPair);
-      if (newTokenList.length > 1) {
-        const randomIndexes = [];
-        while (randomIndexes.length < 2 && newTokenList.length > 0) {
-          const index = Math.floor(Math.random() * newTokenList.length);
-          if (!randomIndexes.includes(index)) {
-            randomIndexes.push(index);
-          }
-        }
-        setCurrentTokenPair([
-          newTokenList[randomIndexes[0]],
-          newTokenList[randomIndexes[1]],
-        ]);
+      if (shuffledRemaining.length >= 2) {
+        setCurrentTokenPair([shuffledRemaining[0], shuffledRemaining[1]]);
       } else {
         setCurrentTokenPair([null, null]);
       }
@@ -190,7 +154,6 @@ export default function Page() {
           BazARmash
         </WindowHeader>
         <Toolbar
-          noPadding
           className="flex flex-wrap justify-between items-center my-1 mx-10"
         >
           <Link href="https://bazar.arweave.dev" target="_blank">

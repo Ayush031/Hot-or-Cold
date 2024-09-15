@@ -50,7 +50,7 @@ export function Default() {
         </span>
       </Button>
       <br />
-      <Button fullWidth>Full width</Button>
+      <Button fullwidth>Full width</Button>
       <br />
       <Button size="sm">Size small</Button>
       <Button size="lg">Size large</Button>
@@ -85,7 +85,7 @@ export function Raised() {
         </span>
       </Button>
       <br />
-      <Button variant="raised" fullWidth>
+      <Button variant="raised" fullwidth>
         Full width
       </Button>
       <br />
@@ -149,7 +149,7 @@ export function Thin() {
         </span>
         Kiwi.app
       </WindowHeader>
-      <Toolbar noPadding>
+      <Toolbar>
         <Button variant="thin" disabled>
           Upload
         </Button>
