@@ -1,15 +1,14 @@
-// import { Button } from "./ui/button";
 import { ConnectButton as Connect, useConnection } from "arweave-wallet-kit";
 import { Button } from "react95";
 
 export const ConnectButton = () => {
   return (
-    <Connect
-      profileModal={true}
-      showBalance={false}
-      showAddress={false}
-      showProfilePicture={true}
-    />
+      <Connect
+        profileModal={true}
+        showBalance={false}
+        showAddress={false}
+        showProfilePicture={true}
+      />
   );
 };
 

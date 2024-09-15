@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   AppBar,
@@ -8,15 +8,18 @@ import {
   Separator,
   Toolbar,
 } from "react95";
-
+import { DisconnectButton } from "./Buttons";
 
 export default function Page() {
   const [open, setOpen] = useState(false);
 
   return (
     <AppBar className=" -translate-y-[100%]  mt-[100vh] " style={{}}>
-      <Toolbar  style={{ justifyContent: "space-between" }}>
-        <div style={{ position: "relative", display: "flex" }} className="w-full">
+      <Toolbar style={{ justifyContent: "space-between" }}>
+        <div
+          style={{ position: "relative", display: "flex" }}
+          className="w-full"
+        >
           <Button
             onClick={() => setOpen(!open)}
             active={open}
@@ -29,9 +32,6 @@ export default function Page() {
             />
             Start
           </Button>
-   
-    
-          
           {open && (
             <MenuList
               style={{
@@ -54,13 +54,12 @@ export default function Page() {
                 </span>
                 My account
               </MenuListItem>
-
               <Separator />
-              <MenuListItem disabled>
+              <MenuListItem>
                 <span role="img" aria-label="🔙">
                   🔙
                 </span>
-                Logout
+                <DisconnectButton variant={"thin"} />
               </MenuListItem>
             </MenuList>
           )}

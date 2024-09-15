@@ -19,17 +19,19 @@ import {
   Button,
   Separator,
   ProgressBar,
+  Frame,
 } from "react95";
 import {
   ArrowBigLeftDash,
   ArrowBigRightDash,
   ExternalLink,
+  X,
 } from "lucide-react";
 import { BazarIcon } from "@/components/icons";
 
 const processId = "qXjKuUAqnzi9vXmGgZ-U3KExQv1J8UqQ-zZYDwfYCHQ";
 
-export default () =>{
+export default () => {
   const { toast } = useToast();
   const { connected } = useConnection();
   const [tokens, setTokens] = useState([]);
@@ -121,7 +123,8 @@ export default () =>{
 
       // Generate a random pair after smashing
       const remainingTokens = tokens.filter(
-        (token) => token !== currentTokenPair[0] && token !== currentTokenPair[1]
+        (token) =>
+          token !== currentTokenPair[0] && token !== currentTokenPair[1]
       );
       const shuffledRemaining = shuffleTokens(remainingTokens);
 
@@ -147,15 +150,16 @@ export default () =>{
   return (
     <ThemeProvider theme={original}>
       <Window className="h-screen w-screen">
-        <WindowHeader className="w-full">
-          <span role="img" aria-label="Kiwi">
-            🥝
-          </span>
-          BazARmash
-        </WindowHeader>
-        <Toolbar
-          className="flex flex-wrap justify-between items-center my-1 mx-10"
-        >
+        <Frame className="w-full p-1">
+          <WindowHeader className="w-full flex items-center justify-between ">
+            <span>{'🥝'}BazARmash</span>
+
+            <Button variant="primary" className="p-2">
+              <X />
+            </Button>
+          </WindowHeader>
+        </Frame>
+        <Toolbar className="flex flex-wrap justify-between items-center my-1 mx-10">
           <Link href="https://bazar.arweave.dev" target="_blank">
             <Button variant="raised" className="flex items-center gap-3">
               <BazarIcon height={22} width={22} />
@@ -221,4 +225,4 @@ export default () =>{
       </Window>
     </ThemeProvider>
   );
-}
+};

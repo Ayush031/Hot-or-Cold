@@ -1,14 +1,12 @@
-import { Scale } from "lucide-react";
-import React from "react";
 import { Monitor } from "react95";
+import { ConnectButton } from "./Buttons";
 
-export default function Default() {
+export default function MonitorComp() {
   return (
-    <Monitor
-      backgroundStyles={{ background: "blue" }}
-      style={{ marginTop: '50px',
-
-       }} 
-    />
+    <div>
+      <Monitor >
+        <ConnectButton />
+      </Monitor>
+    </div>
   );
 }

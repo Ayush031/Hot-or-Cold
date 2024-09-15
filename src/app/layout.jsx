@@ -1,7 +1,7 @@
-
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ArweaveWalletKit } from "arweave-wallet-kit";
+
 export const metadata = {
   title: "BazARmash",
   description: "Tinder of Atomic Assets (NFT's) on AO",
