@@ -9,6 +9,7 @@ import original from "react95/dist/themes/original";
 import { ConnectButton } from "@/components/Buttons";
 import { useConnection } from "arweave-wallet-kit";
 import { message, createDataItemSigner } from "@permaweb/aoconnect";
+import { dryrun } from "@permaweb/aoconnect";
 import {
   ScrollView,
   Window,
@@ -26,7 +27,7 @@ import {
 } from "lucide-react";
 import { BazarIcon } from "@/components/icons";
 
-const processId = "P0Hw4GQzawz8y6Jk4JhGxGkpi7sz6cvk0bmvXu_UwSs";
+const processId = "qXjKuUAqnzi9vXmGgZ-U3KExQv1J8UqQ-zZYDwfYCHQ";
 
 export default function Page() {
   const { toast } = useToast();
@@ -35,9 +36,9 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentTokenPair, setCurrentTokenPair] = useState([null, null]);
   const [percent, setPercent] = useState(0);
+  const [TokenScore, setTokenScore] = useState({});
 
-
-  //fetched tokens
+  // Fetch tokens and manage progress bar
   useEffect(() => {
     const fetchTokens = async () => {
       const tokenList = await Main();
@@ -51,8 +52,6 @@ export default function Page() {
         setIsLoading(false);
       }, loadTime);
 
-
-      // for progress bar
       const progressInterval = setInterval(() => {
         setPercent((prevPercent) => {
           if (prevPercent >= 100) {
@@ -69,7 +68,34 @@ export default function Page() {
     fetchTokens();
   }, []);
 
-  //update vote when smashed
+  // Fetch leaderboard scores
+  useEffect(() => {
+    const GetScore = async () => {
+      try {
+        const result = await dryrun({
+          process: processId,
+          tags: [{ name: "Action", value: "Get" }],
+        });
+
+        if (result.Messages[0].Data) {
+          const Scores = JSON.parse(result.Messages[0].Data);
+          console.log(Scores);
+          setTokenScore(Scores);
+        } else {
+          console.error("No data found in result.Messages");
+        }
+      } catch (error) {
+        console.error("Error fetching scores:", error);
+      }
+    };
+    GetScore();
+  }, [TokenScore]);
+
+  useEffect(() => {
+    console.log("TokenScore:", TokenScore);
+  }, [TokenScore]);
+
+  // Update vote when smashed
   const updateVote = async (selectedToken) => {
     if (isLoading) return;
     setIsLoading(true);
@@ -120,7 +146,7 @@ export default function Page() {
           noPadding
           className="flex flex-wrap justify-between items-center my-1 mx-10"
         >
-          <Link href={"https://bazar.arweave.dev"} target="_blank">
+          <Link href="https://bazar.arweave.dev" target="_blank">
             <Button variant="raised" className="flex items-center gap-3">
               <BazarIcon height={22} width={22} />
               <span>Bazar</span>
@@ -132,7 +158,7 @@ export default function Page() {
         <WindowContent className="flex justify-center">
           {isLoading ? (
             <div className="w-full text-center">
-              <ProgressBar value={percent} width={"100%"} />
+              <ProgressBar value={percent} width="100%" />
               <p className="text-black text-lg">Loading NFTs...</p>
             </div>
           ) : currentTokenPair[0] && currentTokenPair[1] ? (
@@ -156,7 +182,7 @@ export default function Page() {
                     <ArrowBigLeftDash />
                   </Button>
                   <span>Smash</span>
-                  <Button onClick={()=> updateVote(currentTokenPair[1])}>
+                  <Button onClick={() => updateVote(currentTokenPair[1])}>
                     <ArrowBigRightDash />
                   </Button>
                 </div>
