@@ -8,13 +8,20 @@ import {
   Separator,
   Toolbar,
 } from "react95";
-import { DisconnectButton } from "./Buttons";
+import OverlayWindow from "./OverlayWindow";
 
 export default function Page() {
   const [open, setOpen] = useState(false);
 
   return (
     <AppBar className=" -translate-y-[100%]  mt-[100vh] " style={{}}>
+      {open && (
+        <OverlayWindow >
+        
+        
+        </OverlayWindow>
+      )}
+
       <Toolbar style={{ justifyContent: "space-between" }}>
         <div
           style={{ position: "relative", display: "flex" }}
@@ -38,11 +45,11 @@ export default function Page() {
                 position: "absolute",
                 left: "-6px",
                 top: "-50%",
-                transform: "translateY(-92.2%)",
+                transform: "translateY(-88.2%)",
               }}
               onClick={() => setOpen(false)}
             >
-              <MenuListItem>
+              <MenuListItem onClick={() => setOpen(false)}>
                 <span className="mr-[1vw]" role="img" aria-label="👨‍💻">
                   👨‍💻
                 </span>
@@ -55,12 +62,12 @@ export default function Page() {
                 meaw~
               </MenuListItem>
               <Separator />
-              <MenuListItem>
+              {/* <MenuListItem>
                 <span role="img" aria-label="🔙">
                   🔙
                 </span>
                 <DisconnectButton variant={"thin"} />
-              </MenuListItem>
+              </MenuListItem> */}
             </MenuList>
           )}
         </div>

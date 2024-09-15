@@ -14,7 +14,7 @@ export default function Header() {
     const screenHeight = window.innerHeight;
     const windowWidth = 400;
     const windowHeight = 300;
-    const spacing = 30; // Spacing between windows
+    const spacing = 30; 
 
     let x = Math.random() * (screenWidth - windowWidth - spacing);
     let y = Math.random() * (screenHeight - windowHeight - spacing);
@@ -32,9 +32,9 @@ export default function Header() {
 
   const handleIconClick = (app) => {
     if (selectedApp === app) {
-      setSelectedApp(null); // Deselect if the same app is clicked
+      setSelectedApp(null); 
     } else {
-      setSelectedApp(app); // Select new app
+      setSelectedApp(app); 
     }
   };
 
@@ -53,13 +53,13 @@ export default function Header() {
     setOpenApps((prevApps) => prevApps.filter((openApp) => openApp.name !== app.name));
     const { [app.name]: _, ...rest } = windowPositions;
     setWindowPositions(rest);
-    // Deselect the app if it was open
+ 
     if (selectedApp === app) {
       setSelectedApp(null);
     }
   };
 
-  // Handle clicks outside of the icons area
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".icon-container")) {

@@ -34,4 +34,9 @@ export const desktopApps = [
     href: "https://bazar.arweave.net",
     icon: <BazarIcon height={28} width={30} />,
   },
+  {
+    name: "About us",
+    href: "https://bazar.arweave.net",
+    icon: <BazarIcon height={28} width={30} />,
+  },
 ];
