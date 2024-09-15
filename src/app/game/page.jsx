@@ -25,7 +25,7 @@ import {
   ArrowBigRightDash,
   ExternalLink,
 } from "lucide-react";
-import { BazarIcon } from "@/components/icons";
+import { BazarIcon } from "@/components/Icons";
 
 const processId = "qXjKuUAqnzi9vXmGgZ-U3KExQv1J8UqQ-zZYDwfYCHQ";
 

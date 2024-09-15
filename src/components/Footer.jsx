@@ -38,21 +38,21 @@ export default function Page() {
                 position: "absolute",
                 left: "-6px",
                 top: "-50%",
-                transform: "translateY(-91.4%)",
+                transform: "translateY(-92.2%)",
               }}
               onClick={() => setOpen(false)}
             >
               <MenuListItem>
-                <span role="img" aria-label="👨‍💻">
+                <span className="mr-[1vw]" role="img" aria-label="👨‍💻">
                   👨‍💻
                 </span>
-                Profile
+                About us
               </MenuListItem>
               <MenuListItem>
                 <span role="img" aria-label="📁">
                   📁
                 </span>
-                My account
+                meaw~
               </MenuListItem>
 
               <Separator />

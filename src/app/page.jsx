@@ -4,10 +4,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useConnection } from "arweave-wallet-kit";
 import { ConnectButton } from "@/components/Buttons";
-import FrontPage from "../components/FrontPage"
+import FrontPage from "../components/FrontPage";
 import { ThemeProvider } from "styled-components";
 import original from "react95/dist/themes/original";
-
 
 export default function LandingPage() {
   const { connected } = useConnection();
@@ -27,11 +26,11 @@ export default function LandingPage() {
     //     )}
     //   </section>
     // </div>
-    
-      <ThemeProvider theme={original}>
-        <div className="w-full h-screen">
-      <FrontPage/>
+
+    <ThemeProvider theme={original}>
+      <div className="w-full h-screen p-4">
+        <FrontPage />
       </div>
-      </ThemeProvider>
+    </ThemeProvider>
   );
 }
