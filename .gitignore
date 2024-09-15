@@ -40,3 +40,7 @@ next-env.d.ts
 # temp ignore
 README.md
 idea.txt
+
+AppSelector.jsx
+BrowserWindow.jsx
+DesktopApp.jsx

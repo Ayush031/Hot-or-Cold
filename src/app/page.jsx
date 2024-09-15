@@ -1,12 +1,17 @@
 "use client";
 
-import { useConnection } from "arweave-wallet-kit";
-import Header from "../components/Header";;
-import { ThemeProvider } from "styled-components";
-import original from "react95/dist/themes/original";
 import { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import { ConnectButton } from "@/components/Buttons";
+import { ThemeProvider } from "styled-components";
+import { useConnection } from "arweave-wallet-kit";
+import original from "react95/dist/themes/original";
+import AppSelector from "@/components/AppSelector";
+import DesktopApp from "@/components/DesktopApp";
+import BrowserWindow from "@/components/BrowserWindow";
+import { Monitor } from "react95";
+
 export default function App() {
   const { connected } = useConnection();
   const [isConnected, setIsConnected] = useState(false);
@@ -21,15 +26,21 @@ export default function App() {
     <ThemeProvider theme={original}>
       <div className="w-full h-screen">
         {isConnected ? (
-          <Header />
+          <div>
+            <Header />
+            <Footer />
+          </div>
         ) : (
           <>
-            <div>
-              <ConnectButton />
+            <div className="bg-black/50 flex items-center justify-center h-full w-full">
+              <Monitor>
+                <div className="flex flex-col items-center justify-center h-full" >                  
+                  <ConnectButton />
+                </div>
+              </Monitor>
             </div>
           </>
         )}
-        <Footer />
       </div>
     </ThemeProvider>
   );

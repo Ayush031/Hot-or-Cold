@@ -21,26 +21,12 @@ const asset = [
   },
 
 ]
-
 export default asset;
-
-
-
 
 export const desktopApps = [
   {
     name: "BazARmash",
     href: "http://localhost:3000/game",
-    icon: "📁",
-  },
-  {
-    name: "LinkedIn",
-    href: "https://linkedin.com/in/bazarmash",
-    icon: "📁",
-  },
-  {
-    name: "Twitter",
-    href: "https://ardrive.io",
     icon: "📁",
   },
   {

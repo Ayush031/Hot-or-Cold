@@ -13,16 +13,18 @@ export default function RootLayout({ children }) {
       <head>
         <title>BazARmash</title>
       </head>
-      <body className=" overflow-hidden"
-      style={{
+      <body
+        className=" overflow-hidden"
+        style={{
           backgroundImage: "url('/assets/99.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-        }}>
+        }}
+      >
         <ArweaveWalletKit>
           <main>{children}</main>
-          <Toaster />c:\Users\Anuku\Downloads\99.jpg
+          <Toaster />
         </ArweaveWalletKit>
       </body>
     </html>
