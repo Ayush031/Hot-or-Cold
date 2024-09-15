@@ -1,3 +1,4 @@
+
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ArweaveWalletKit } from "arweave-wallet-kit";
@@ -12,10 +13,16 @@ export default function RootLayout({ children }) {
       <head>
         <title>BazARmash</title>
       </head>
-      <body className="bg-slate-800">
+      <body className=" overflow-hidden"
+      style={{
+          backgroundImage: "url('/assets/99.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}>
         <ArweaveWalletKit>
           <main>{children}</main>
-          <Toaster />
+          <Toaster />c:\Users\Anuku\Downloads\99.jpg
         </ArweaveWalletKit>
       </body>
     </html>

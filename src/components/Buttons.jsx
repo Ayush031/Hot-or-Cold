@@ -13,7 +13,7 @@ export const ConnectButton = () => {
   );
 };
 
-export const DisconnectButton = ({variant}) => {
+export const DisconnectButton = ({ variant }) => {
   const { disconnect } = useConnection();
 
   const handleDisconnectWallet = async () => {
@@ -26,8 +26,8 @@ export const DisconnectButton = ({variant}) => {
   };
 
   return (
-    <Button variant={variant} onCick={handleDisconnectWallet}>Disconnect Wallet</Button>
-    // <Button className="bg-black ring-4" onClick={handleDisconnectWallet}>
-    // </Button>
+    <Button className="bg-black ring-4" onClick={handleDisconnectWallet}>
+      Disconnet Button
+    </Button>
   );
 };
