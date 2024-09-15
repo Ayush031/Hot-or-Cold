@@ -1,6 +1,6 @@
-import { dryrun } from "@permaweb/aoconnect";
+import { dryrun } from "@permaweb/aoconnect/browser";
 
-export const Main = async () => {
+export const Main = async (excludedTokens = []) => {
   try {
     const result = await dryrun({
       process: 'U3TjJAZWJjlWBB4KAXSHKzuky81jtyh0zqH8rUL4Wd0',
@@ -10,11 +10,11 @@ export const Main = async () => {
 
     const asset = JSON.parse(result.Messages[0].Data);
     const some = [];
-    
+
     asset.Orderbook.forEach((element) => {
       some.push(element.Orders);
     });
-    
+
     let tokens = [];
     some.forEach((element) => {
       element.forEach((order) => {
@@ -22,7 +22,9 @@ export const Main = async () => {
       });
     });
 
-    const uniqueTokens = [...new Set(tokens)];
+    // Filter out excluded tokens
+    const filteredTokens = tokens.filter(token => !excludedTokens.includes(token));
+    const uniqueTokens = [...new Set(filteredTokens)];
 
     return uniqueTokens;
   } catch (error) {
