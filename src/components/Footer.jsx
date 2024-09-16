@@ -45,16 +45,16 @@ export default function Page() {
                 position: "absolute",
                 left: "-6px",
                 top: "-50%",
-                transform: "translateY(-88.2%)",
+                transform: "translateY(-80%)",
               }}
               onClick={() => setOpen(false)}
             >
-              <MenuListItem onClick={() => setOpen(false)}>
+              {/* <MenuListItem onClick={() => setOpen(false)}>
                 <span className="mr-[1vw]" role="img" aria-label="👨‍💻">
                   👨‍💻
                 </span>
                 About us
-              </MenuListItem>
+              </MenuListItem> */}
               <MenuListItem>
                 <span role="img" aria-label="📁">
                   📁

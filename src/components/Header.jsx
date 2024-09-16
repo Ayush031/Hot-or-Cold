@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { desktopApps } from "@/data";
 import OverlayWindow from "./OverlayWindow";
+import { ProgressBar } from 'react95';
 
 export default function Header() {
   const [openApps, setOpenApps] = useState([]);
@@ -110,3 +111,10 @@ export default function Header() {
     </div>
   );
 }
+
+
+
+
+
+
+
