@@ -1,3 +1,4 @@
+import { Shield } from "lucide-react";
 import { BazarIcon } from "./components/icons";
 
 const asset = [
@@ -25,18 +26,15 @@ export default asset;
 
 export const desktopApps = [
   {
-    name: "BazARmash",
-    href: "http://localhost:3000/game",
-    icon: "📁",
-  },
-  {
-    name: "Bazar",
-    href: "https://bazar.arweave.net",
-    icon: <BazarIcon height={28} width={30} />,
-  },
-  {
     name: "About us",
     href: "https://bazar.arweave.net",
-    icon: <BazarIcon height={28} width={30} />,
+    icon: <BazarIcon height={45} width={45} />,
+  },
+  {
+    name: "LeaderBoard",
+    href: "https://bazar.arweave.net",
+    icon: <Shield height={45} width={45} />,
   },
 ];
+
+export const processId = "qXjKuUAqnzi9vXmGgZ-U3KExQv1J8UqQ-zZYDwfYCHQ";

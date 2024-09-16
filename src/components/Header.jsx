@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { desktopApps } from "@/data";
+import { useState, useEffect } from "react";
 import OverlayWindow from "./OverlayWindow";
 import { ProgressBar } from 'react95';
 
-export default function Header() {
+export default function Header({ tokenScore }) {
   const [openApps, setOpenApps] = useState([]);
   const [windowPositions, setWindowPositions] = useState({});
   const [selectedApp, setSelectedApp] = useState(null);
@@ -15,28 +17,22 @@ export default function Header() {
     const screenHeight = window.innerHeight;
     const windowWidth = 400;
     const windowHeight = 300;
-    const spacing = 30; // Spacing between windows
+    const spacing = 30;// Spacing between windows
 
-    let x = Math.random() * (screenWidth - windowWidth - spacing);
-    let y = Math.random() * (screenHeight - windowHeight - spacing);
+    const xSteps = Math.floor((screenWidth - windowWidth) / spacing);
+    const ySteps = Math.floor((screenHeight - windowHeight) / spacing);
 
-    // Adjust position if it overlaps with previous windows
-    Object.values(windowPositions).forEach(({ x: prevX, y: prevY }) => {
-      if (Math.abs(x - prevX) < spacing && Math.abs(y - prevY) < spacing) {
-        x += spacing;
-        y += spacing;
-      }
-    });
+    const x = (index % xSteps) * spacing;
+    const y = Math.floor(index / xSteps) * spacing;
 
-    return { x, y };
+    return {
+      x: Math.min(x, screenWidth - windowWidth),
+      y: Math.min(y, screenHeight - windowHeight),
+    };
   };
 
   const handleIconClick = (app) => {
-    if (selectedApp === app) {
-      setSelectedApp(null); // Deselect if the same app is clicked
-    } else {
-      setSelectedApp(app); // Select new app
-    }
+    setSelectedApp((prev) => (prev === app ? null : app));
   };
 
   const handleAppClick = (app) => {
@@ -51,15 +47,18 @@ export default function Header() {
   };
 
   const handleClose = (app) => {
-    setOpenApps((prevApps) => prevApps.filter((openApp) => openApp.name !== app.name));
-    const { [app.name]: _, ...rest } = windowPositions;
-    setWindowPositions(rest);
-    // Deselect the app if it was open
+    setOpenApps((prevApps) =>
+      prevApps.filter((openApp) => openApp.name !== app.name)
+    );
+    setWindowPositions((prevPositions) => {
+      const { [app.name]: _, ...rest } = prevPositions;
+      return rest;
+    });
+
     if (selectedApp === app) {
       setSelectedApp(null);
     }
   };
-
   // Handle clicks outside of the icons area
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -75,15 +74,23 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="h-screen w-full p-6 relative">
+    <div className="h-screen w-full p-3 relative">
       <div className="flex flex-col gap-6">
+        <Link href="/game">
+          <div className="select-none w-32">
+            <Image src={bazarmashImage} alt="BazARmash" width="auto" />
+            <h1 className="font-semibold text-center">BazARmash</h1>
+          </div>
+        </Link>
         {desktopApps.map((app) => (
           <div
             role="button"
             tabIndex={0}
             aria-label={app.name}
-            className={`icon-container rounded-sm px-1 py-2 cursor-pointer h-16 w-24 ${
-              openApps.some((openApp) => openApp.name === app.name) ? "bg-white/35" : ""
+            className={`icon-container rounded-sm px-1 py-2 cursor-pointer h-24 w-36 ${
+              openApps.some((openApp) => openApp.name === app.name)
+                ? "bg-white/35"
+                : ""
             } ${selectedApp === app ? "bg-white/35" : ""}`}
             key={app.name}
             onClick={() => handleIconClick(app)}
@@ -102,9 +109,10 @@ export default function Header() {
             app={app}
             onClose={handleClose}
             position={windowPositions[app.name]}
-            index={index}
+            index={1}
+            tokenScore={tokenScore}
           >
-            <div>{app.name} Content</div>
+            <div>{app.name}</div>
           </OverlayWindow>
         ))}
       </div>

@@ -86,3 +86,32 @@
     opacity: 1;
   }
 }
+
+@font-face {
+  font-family: font1;
+  src: url('/fonts/HomeVideo-BLG6G.ttf');
+}
+
+@font-face {
+  font-family: font1Bold;
+  src: url('/fonts/fontBold.ttf');
+}
+
+@font-face {
+  font-family: pixelMono;
+  src: url('/fonts/pixelMono.ttf');
+}
+
+@font-face {
+  font-family: pixel1;
+  src: url('/fonts/pixel1.ttf');
+}
+
+@font-face {
+  font-family: pixelSans;
+  src: url('/fonts/pixelSans.ttf');
+}
+
+body {
+  font-family: pixel1;
+}
