@@ -21,12 +21,7 @@ export default function OverlayWindow({
   index,
   tokenscore,
 }) {
-  const [bounds, setBounds] = useState({
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-  });
+  const [bounds, setBounds] = useState({ left: 0, top: 0, right: 0, bottom: 0 });
 
   useEffect(() => {
     const updateBounds = () => {

@@ -17,7 +17,7 @@ export default function Header({ tokenScore }) {
     const screenHeight = window.innerHeight;
     const windowWidth = 400;
     const windowHeight = 300;
-    const spacing = 30;
+    const spacing = 30;// Spacing between windows
 
     const xSteps = Math.floor((screenWidth - windowWidth) / spacing);
     const ySteps = Math.floor((screenHeight - windowHeight) / spacing);
@@ -59,7 +59,7 @@ export default function Header({ tokenScore }) {
       setSelectedApp(null);
     }
   };
-
+  // Handle clicks outside of the icons area
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".icon-container")) {
