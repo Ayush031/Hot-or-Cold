@@ -1,29 +1,41 @@
-"use client";
-
-import { useEffect, useState } from "react";
+// App component
+"use client"
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { ConnectButton } from "@/components/Buttons";
 import { ThemeProvider } from "styled-components";
-import { useConnection } from "arweave-wallet-kit";
 import original from "react95/dist/themes/original";
-
-import { Monitor } from "react95";
+import { useEffect, useState } from "react";
+import { dryrun } from "@permaweb/aoconnect/browser";
+import { processId } from "@/data";
 
 export default function App() {
-  const { connected } = useConnection();
-  const [isConnected, setIsConnected] = useState(false);
+  const [TokenScore, setTokenScore] = useState({});
 
   useEffect(() => {
-    if (connected) {
-      setIsConnected(true);
-    }
-  }, [connected]);
+    const GetScore = async () => {
+      try {
+        const result = await dryrun({
+          process: processId,
+          tags: [{ name: "Action", value: "Get" }],
+        });
+
+        if (result.Messages[0].Data) {
+          const Scores = JSON.parse(result.Messages[0].Data);
+          setTokenScore(Scores);
+        } else {
+          console.error("No data found in result.Messages");
+        }
+      } catch (error) {
+        console.error("Error fetching scores:", error);
+      }
+    };
+    GetScore();
+  }, [TokenScore]);
 
   return (
     <ThemeProvider theme={original}>
       <div className="w-full h-screen">
-        <Header />
+        <Header tokenScore={TokenScore} />
         <Footer />
       </div>
     </ThemeProvider>

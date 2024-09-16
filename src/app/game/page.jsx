@@ -24,12 +24,12 @@ import {
 import {
   ArrowBigLeftDash,
   ArrowBigRightDash,
+  ArrowLeft,
   ExternalLink,
-  X,
+  Shield,
 } from "lucide-react";
 import { BazarIcon } from "@/components/Icons";
-
-const processId = "qXjKuUAqnzi9vXmGgZ-U3KExQv1J8UqQ-zZYDwfYCHQ";
+import { processId } from "@/data";
 
 export default () => {
   const { toast } = useToast();
@@ -40,7 +40,6 @@ export default () => {
   const [percent, setPercent] = useState(0);
   const [TokenScore, setTokenScore] = useState({});
 
-  // Helper function to shuffle the tokens
   const shuffleTokens = (tokenList) => {
     for (let i = tokenList.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -48,12 +47,11 @@ export default () => {
     }
     return tokenList;
   };
-
-  // Fetch tokens and manage progress bar
+  
   useEffect(() => {
     const fetchTokens = async () => {
       const tokenList = await Main();
-      const shuffledTokens = shuffleTokens(tokenList); // Shuffle tokens
+      const shuffledTokens = shuffleTokens(tokenList);
       setTokens(shuffledTokens);
       if (shuffledTokens.length > 1) {
         setCurrentTokenPair([shuffledTokens[0], shuffledTokens[1]]);
@@ -79,8 +77,6 @@ export default () => {
 
     fetchTokens();
   }, []);
-
-  // Fetch leaderboard scores
   useEffect(() => {
     const GetScore = async () => {
       try {
@@ -102,7 +98,8 @@ export default () => {
     GetScore();
   }, [TokenScore]);
 
-  // Update vote when smashed
+  console.log("TokenScore", TokenScore);
+
   const updateVote = async (selectedToken) => {
     if (isLoading) return;
     setIsLoading(true);
@@ -121,7 +118,6 @@ export default () => {
         description: "You successfully smashed the NFT.",
       });
 
-      // Generate a random pair after smashing
       const remainingTokens = tokens.filter(
         (token) =>
           token !== currentTokenPair[0] && token !== currentTokenPair[1]
@@ -151,12 +147,13 @@ export default () => {
     <ThemeProvider theme={original}>
       <Window className="h-screen w-screen">
         <Frame className="w-full p-1">
-          <WindowHeader className="w-full flex items-center justify-between ">
-            <span>{'🥝'}BazARmash</span>
-
-            <Button variant="primary" className="p-2">
-              <X />
-            </Button>
+          <WindowHeader className="w-full flex justify-between ">
+            <span>{"🥝"}BazARmash</span>
+            <Link href="/">
+              <Button variant="primary">
+                <ArrowLeft />
+              </Button>
+            </Link>
           </WindowHeader>
         </Frame>
         <Toolbar className="flex flex-wrap justify-between items-center my-1 mx-10">
@@ -166,62 +163,72 @@ export default () => {
               <span>Bazar</span>
             </Button>
           </Link>
+          <Link href="/leaderboard" target="_blank">
+            <Button variant="raised" className="flex items-center gap-3">
+              <Shield height={22} width={22} />
+              <span>Leaderboard</span>
+            </Button>
+          </Link>
           <ConnectButton />
         </Toolbar>
         <Separator />
-        <WindowContent className="flex justify-center">
-          {isLoading ? (
-            <div className="w-full text-center">
-              <ProgressBar value={percent} width="100%" />
-              <p className="text-black text-lg">Loading NFTs...</p>
-            </div>
-          ) : currentTokenPair[0] && currentTokenPair[1] ? (
-            <div className="flex items-center gap-8">
-              <Window>
-                <WindowHeader className="flex justify-between items-center">
-                  <span>NFT Name</span>
-                  <ExternalLink />
-                </WindowHeader>
-                <div
-                  className="w-80 h-80 bg-center bg-cover cursor-pointer"
-                  style={{
-                    backgroundImage: `url(https://arweave.net/${currentTokenPair[0]})`,
-                  }}
-                  onClick={() => updateVote(currentTokenPair[0])}
-                />
-              </Window>
-              <ScrollView className="text-center">
-                <div className="flex justify-center items-center gap-4">
-                  <Button onClick={() => updateVote(currentTokenPair[0])}>
-                    <ArrowBigLeftDash />
-                  </Button>
-                  <span>Smash</span>
-                  <Button onClick={() => updateVote(currentTokenPair[1])}>
-                    <ArrowBigRightDash />
-                  </Button>
+        {isLoading ? (
+          <div className="w-full text-center">
+            <ProgressBar value={percent} width="100%" />
+            <p className="text-black text-lg">Loading NFTs...</p>
+          </div>
+        ) : (
+          <>
+            <WindowContent className="flex justify-center">
+              {currentTokenPair[0] && currentTokenPair[1] ? (
+                <div className="flex items-center gap-8">
+                  <Window>
+                    <WindowHeader className="flex justify-between items-center">
+                      <span>NFT Name</span>
+                      <ExternalLink />
+                    </WindowHeader>
+                    <div
+                      className="w-80 h-80 bg-center bg-cover cursor-pointer"
+                      style={{
+                        backgroundImage: `url(https://arweave.net/${currentTokenPair[0]})`,
+                      }}
+                      onClick={() => updateVote(currentTokenPair[0])}
+                    />
+                  </Window>
+                  <ScrollView className="text-center">
+                    <div className="flex justify-center items-center gap-4">
+                      <Button onClick={() => updateVote(currentTokenPair[0])}>
+                        <ArrowBigLeftDash />
+                      </Button>
+                      <span>Smash</span>
+                      <Button onClick={() => updateVote(currentTokenPair[1])}>
+                        <ArrowBigRightDash />
+                      </Button>
+                    </div>
+                  </ScrollView>
+                  <Window>
+                    <WindowHeader className="flex justify-between items-center">
+                      <span>NFT Name</span>
+                      <ExternalLink />
+                    </WindowHeader>
+                    <ScrollView>
+                      <div
+                        className="w-80 h-80 bg-center bg-cover cursor-pointer"
+                        style={{
+                          backgroundImage: `url(https://arweave.net/${currentTokenPair[1]})`,
+                        }}
+                        onClick={() => updateVote(currentTokenPair[1])}
+                      />
+                    </ScrollView>
+                  </Window>
                 </div>
-              </ScrollView>
-              <Window>
-                <WindowHeader className="flex justify-between items-center">
-                  <span>NFT Name</span>
-                  <ExternalLink />
-                </WindowHeader>
-                <ScrollView>
-                  <div
-                    className="w-80 h-80 bg-center bg-cover cursor-pointer"
-                    style={{
-                      backgroundImage: `url(https://arweave.net/${currentTokenPair[1]})`,
-                    }}
-                    onClick={() => updateVote(currentTokenPair[1])}
-                  />
-                </ScrollView>
-              </Window>
-            </div>
-          ) : (
-            <div className="text-white">No more NFTs to smash!</div>
-          )}
-        </WindowContent>
-        <Separator />
+              ) : (
+                <div className="text-white">No more NFTs to smash!</div>
+              )}
+            </WindowContent>
+            <Separator />
+          </>
+        )}
       </Window>
     </ThemeProvider>
   );

@@ -1,5 +1,6 @@
-import { useState } from "react";
+"use client"
 
+import { useState } from "react";
 import {
   AppBar,
   Button,
@@ -14,7 +15,7 @@ export default function Page() {
   const [open, setOpen] = useState(false);
 
   return (
-    <AppBar className=" -translate-y-[100%]  mt-[100vh] " style={{}}>
+    <AppBar className="-translate-y-[100%] mt-[100vh]">
       {open && (
         <OverlayWindow >
         

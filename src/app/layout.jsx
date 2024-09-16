@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
         <title>BazARmash</title>
       </head>
       <body
-        className=" overflow-hidden"
+        className="overflow-hidden tracking-widest"
         style={{
           backgroundImage: "url('/assets/99.jpg')",
           backgroundSize: "cover",
