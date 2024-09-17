@@ -47,7 +47,7 @@ export default () => {
     }
     return tokenList;
   };
-  
+
   useEffect(() => {
     const fetchTokens = async () => {
       const tokenList = await Main();
@@ -148,7 +148,9 @@ export default () => {
       <Window className="h-screen w-screen">
         <Frame className="w-full p-1">
           <WindowHeader className="w-full flex justify-between ">
-            <span>{"🥝"}BazARmash</span>
+            <Link href="/">
+              <span>{"🥝"}BazARmash</span>
+            </Link>
             <Link href="/">
               <Button variant="primary">
                 <ArrowLeft />

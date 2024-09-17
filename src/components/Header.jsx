@@ -5,7 +5,6 @@ import Image from "next/image";
 import { desktopApps } from "@/data";
 import { useState, useEffect } from "react";
 import OverlayWindow from "./OverlayWindow";
-import { ProgressBar } from 'react95';
 
 export default function Header({ tokenScore }) {
   const [openApps, setOpenApps] = useState([]);
@@ -17,7 +16,7 @@ export default function Header({ tokenScore }) {
     const screenHeight = window.innerHeight;
     const windowWidth = 400;
     const windowHeight = 300;
-    const spacing = 30;// Spacing between windows
+    const spacing = 30;
 
     const xSteps = Math.floor((screenWidth - windowWidth) / spacing);
     const ySteps = Math.floor((screenHeight - windowHeight) / spacing);
@@ -54,19 +53,17 @@ export default function Header({ tokenScore }) {
       const { [app.name]: _, ...rest } = prevPositions;
       return rest;
     });
-
     if (selectedApp === app) {
       setSelectedApp(null);
     }
   };
-  // Handle clicks outside of the icons area
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".icon-container")) {
         setSelectedApp(null);
       }
     };
-
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -78,7 +75,7 @@ export default function Header({ tokenScore }) {
       <div className="flex flex-col gap-6">
         <Link href="/game">
           <div className="select-none w-32">
-            <Image src={bazarmashImage} alt="BazARmash" width="auto" />
+            <img src="/bazarmash.png" alt="bazarmash_logo" />
             <h1 className="font-semibold text-center">BazARmash</h1>
           </div>
         </Link>
@@ -92,7 +89,7 @@ export default function Header({ tokenScore }) {
                 ? "bg-white/35"
                 : ""
             } ${selectedApp === app ? "bg-white/35" : ""}`}
-            key={app.name}
+            key={app.name} 
             onClick={() => handleIconClick(app)}
             onDoubleClick={() => handleAppClick(app)}
           >
@@ -102,7 +99,6 @@ export default function Header({ tokenScore }) {
             </div>
           </div>
         ))}
-
         {openApps.map((app, index) => (
           <OverlayWindow
             key={app.name}
@@ -119,10 +115,3 @@ export default function Header({ tokenScore }) {
     </div>
   );
 }
-
-
-
-
-
-
-
