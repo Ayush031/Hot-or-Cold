@@ -10,6 +10,26 @@ import {
   Toolbar,
 } from "react95";
 import OverlayWindow from "./OverlayWindow";
+import Image from "next/image";
+
+const profile = [
+  {
+    name: "Ayush",
+    Image: "/assets/Satyansh.png"
+  },
+  {
+    name: "Satyansh",
+    Image: "/assets/Ayush.png"
+  },
+  {
+    name: "Rahul",
+    Image: "/assets/Rahul.png"
+  },
+  {
+    name: "Anukul",
+    Image: "/assets/Anukul.png"
+  },
+]
 
 export default function Page() {
   const [open, setOpen] = useState(false);
@@ -45,7 +65,7 @@ export default function Page() {
               style={{
                 position: "absolute",
                 left: "-6px",
-                top: "-50%",
+                top: "-120%",
                 transform: "translateY(-80%)",
               }}
               onClick={() => setOpen(false)}
@@ -56,12 +76,15 @@ export default function Page() {
                 </span>
                 About us
               </MenuListItem> */}
-              <MenuListItem>
+              {profile.map((item, idx) => (
+                <MenuListItem key={idx}>
                 <span role="img" aria-label="📁">
-                  📁
+                  <Image src={item.Image} alt="pussy" width={300} height={300}  className="size-8 mix-blend-color-burn mr-2"/>
                 </span>
-                meaw~
+                <p>{item.name}</p>
               </MenuListItem>
+              ))}
+              
               <Separator />
               {/* <MenuListItem>
                 <span role="img" aria-label="🔙">
