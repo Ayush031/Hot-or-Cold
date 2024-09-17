@@ -28,7 +28,7 @@ import {
   ExternalLink,
   Shield,
 } from "lucide-react";
-import { BazarIcon } from "@/components/Icons";
+import { BazarIcon } from "@/components/icons";
 import { processId } from "@/data";
 
 export default () => {
