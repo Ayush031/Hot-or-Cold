@@ -73,9 +73,9 @@ export default function Header({ tokenScore }) {
     <div className="h-screen w-full p-3 relative">
       <div className="flex flex-col gap-6">
         <Link href="/game">
-          <div className="select-none w-32">
-            <img src="/bazarmash.png" alt="bazarmash_logo" />
-            <h1 className="font-semibold text-center">game.exe</h1>
+          <div className="select-none w-32 ">
+              <Image src={"/bazarmash.png"} width={300} height={300} className="size-20 mx-auto" alt="icon"/>
+            <h1 className="font-semibold text-center text-[12px]">BazARmash</h1>
           </div>
         </Link>
         {desktopApps.map((app) => (
@@ -83,7 +83,7 @@ export default function Header({ tokenScore }) {
             role="button"
             tabIndex={0}
             aria-label={app.name}
-            className={`icon-container rounded-sm px-1 py-2 cursor-pointer h-24 w-36 ${
+            className={`icon-container rounded-sm px-1 py-2 cursor-pointer  h-24 w-36 ${
               openApps.some((openApp) => openApp.name === app.name)
                 ? "bg-white/35"
                 : ""
@@ -93,8 +93,8 @@ export default function Header({ tokenScore }) {
             onDoubleClick={() => handleAppClick(app)}
           >
             <div className="flex flex-col justify-center items-center select-none">
-              <span>{app.icon}</span>
-              <h1 className="font-semibold">{app.name}</h1>
+              <Image src={app.icon} height={300} width={300 } className="size-12 mx-auto" alt="icon"/>
+              <h1 className="font-semibold text-[12px] mt-2">{app.name}</h1>
             </div>
           </div>
         ))}

@@ -3,10 +3,6 @@
 import { Copyright, X } from "lucide-react";
 import Draggable from "react-draggable";
 import { useEffect, useState } from "react";
-import st from "../../public/assets/12.jpg";
-import so from "../../public/assets/67.png";
-import sl from "../../public/assets/68.png";
-import si from "../../public/assets/70.png";
 import {
   Button,
   Frame,
@@ -26,12 +22,7 @@ export default function OverlayWindow({
   index,
   tokenscore,
 }) {
-  const [bounds, setBounds] = useState({
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-  });
+  const [bounds, setBounds] = useState({ left: 0, top: 0, right: 0, bottom: 0 });
 
   useEffect(() => {
     const updateBounds = () => {
