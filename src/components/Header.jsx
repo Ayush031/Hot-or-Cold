@@ -5,7 +5,7 @@ import Image from "next/image";
 import { desktopApps } from "@/data";
 import { useState, useEffect } from "react";
 import OverlayWindow from "./OverlayWindow";
-import { ProgressBar } from 'react95';
+
 
 export default function Header({ tokenScore }) {
   const [openApps, setOpenApps] = useState([]);
