@@ -1,8 +1,8 @@
 "use client";
-
 import { X } from "lucide-react";
 import Draggable from "react-draggable";
 import { useEffect, useState } from "react";
+import { dryrun } from '@permaweb/aoconnect/browser';
 import {
   Button,
   Frame,
@@ -21,6 +21,33 @@ export default function OverlayWindow({
   index,
   tokenscore,
 }) {
+
+
+  const [TokenScores, setTokenScores] = useState({});
+  useEffect(() => {
+      const GetScore = async () => {
+        try {
+          const result = await dryrun({
+            process: "P0Hw4GQzawz8y6Jk4JhGxGkpi7sz6cvk0bmvXu_UwSs",
+            tags: [{ name: "Action", value: "Get" }],
+          });
+
+          if (result.Messages[0].Data) {
+            const Scores = JSON.parse(result.Messages[0].Data);
+            setTokenScores(Scores);
+          } else {
+            console.error("No data found in result.Messages");
+          }
+        } catch (error) {
+          console.error("Error fetching scores:", error);
+        }
+      };
+      GetScore();
+    }, [TokenScores]);
+
+    console.log(TokenScores);
+
+
   const [bounds, setBounds] = useState({
     left: 0,
     top: 0,
@@ -72,7 +99,7 @@ export default function OverlayWindow({
       <Window
         className={`absolute window-header
 
-          ${app.name === "LeaderBoard" && "w-[800px] h-[550px]"}
+          ${app.name === "LeaderBoard" && "w-[900px] h-[550px]"}
            ${app.name === "About" && "w-[900px] h-[500px]"}
 
         `}
@@ -91,28 +118,27 @@ export default function OverlayWindow({
             {app.name === "About" && (
               <div className="flex flex-col">
                 <div className="flex justify-evenly items-center mb-4">
-                  <div className="w-[40%] h-[70%]">
+                  <div className="w-[40%] h-[90%]">
                     <Image
-                      className="w-full h-full object-contain"
+                      className=" scale-1 -mt-10"
                       alt="bazarmash_logo"
                       src={"/bazarmash.png"}
                       width={1000}
                       height={1000}
                     />
                   </div>
-                  <ScrollView className="flex flex-col justify-center items-center">
-                    <h1 className="text-2xl font-bold">Netscape Navigator</h1>
+                  <ScrollView className="flex   py-8 justify-center text-center gap-5 items-center">
+                    <h1 className="text-2xl font-bold py-2">
+                      Netscape Navigator
+                    </h1>
                     <h2 className="text-xl">Version 2.01</h2>
-                    <p className="text-center">
+                    <p className="text-center py-2">
                       Copyright © 1994-1995 baZarMash
                     </p>
                     <p className="text-center">
-                      This software is subject to license agreements. Please, in
-                      the name of love ~ love me
+                      This software is subject to license agreements.
                     </p>
-                    <p className="text-center">
-                      Report any problems through your mom
-                    </p>
+                    <p className="text-center">made /w lobe ~</p>
                   </ScrollView>
                 </div>
                 <div className="flex flex-row gap-5 justify-center items- ">
@@ -137,109 +163,55 @@ export default function OverlayWindow({
             )}
             {app.name === "LeaderBoard" && (
               <div className="w-full h-full flex flex-col gap-4">
-                <h1 className="text-center font-bold text-2xl">LeaderBoard</h1>
-                <ScrollView className="h-[80%]">
-                  <div className="w-full h-full">
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Ranking</th>
-                          <th>NFT Token</th>
-                          <th>Popularity</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {/* Leaderboard Data Table */}
-                      </tbody>
-                    </table>
-                  </div>
-                </ScrollView>
-              </div>
+              <h1 className="text-center font-bold text-2xl">LeaderBoard</h1>
+              <ScrollView className="h-[80%]">
+                <div className="w-full h-full px-3 flex">
+                  
+                    <div>
+                    <div className="font-semibold pb-2 text-center mr-[40%] ">
+                      Token
+                    </div>
+                      {Object.entries(TokenScores).map(([key, value]) => (
+                       
+                        <div key={key} className=" w-full ">
+                            <a href={`https://bazar.ar.io/#/asset/${key}`}>{key}</a>
+                        </div> 
+                      ))}
+                      </div>
+
+
+                        <div className="ml-9">
+                      <div className="font-semibold pb-2 text-center mr-[40%] ">
+                      ranking
+                    </div>
+                    <div>
+                      {Object.entries(TokenScores).map(([key, value]) => (
+                        // <tr key={key} className="text-center w-full bg-red-400 ">
+                        //   <td>{key}</td>
+                        //   <td className="text-center">{value}</td> {/* Assuming value has a 'ranking' field */}
+                        //   <td>{value.token}</td> {/* Assuming value has a 'token' field */}
+                        //   <td>{value.popularity}</td> {/* Assuming value has a 'popularity' field */}
+                        // </tr>
+                        
+                        <div key={key} className=" w-full text-center ">
+                            <div>{value}</div>
+                        </div> 
+                      ))}
+                      </div>
+
+                      </div>
+
+
+                       
+                    {/* </tbody> */}
+                  {/* </table> */}
+                </div>
+              </ScrollView>
+            </div>
+            
             )}
           </WindowContent>
         </ScrollView>
-        {/* <ScrollView className="h-[92%]">
-          <WindowContent className="p-4 h-full">
-            {app.name === "About" && (
-              <div className="w-full text-center">
-                
-                <div className="w-full">
-                  <Image
-                    alt="about"
-                    src="/bazarmash.png"
-                    width={250}
-                    height={250}
-                  />
-                  <ScrollView className="">
-                    <div className="w-full flex flex-col gap-10 text-center">
-                      <h1 className="font-extrabold text-2xl">BazARmash</h1>
-                      <h2 className="text-sm">Version 0.0.1</h2>
-                      <div className="flex">
-                        Copyright
-                        <span>
-                          <Copyright />
-                        </span>
-                        BazARmash Corporations, All rights Reserved.
-                      </div>
-                      <div>
-                        BazARmash is a game developed by BazARmash Corporations.
-                        The game is developed using Next.js, React 95, and
-                        Tailwind CSS.
-                      </div>
-                      <div>
-                        The game is developed for educational purposes and to
-                        showcase the capabilities of Next.js and React 95.
-                      </div>
-                    </div>
-                  </ScrollView>
-                </div>
-                <div className="my-3">
-                  <Separator />
-                </div>
-              </div>
-            )}
-            {app.name === "LeaderBoard" && (
-              <div className="w-full h-full flex flex-col gap-4">
-                <h1 className="text-center font-bold text-2xl">LeaderBoard</h1>
-                <ScrollView className="h-[80%]">
-                  <div className="w-full h-full">
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Ranking</th>
-                          <th>NFT Token</th>
-                          <th>Popularity</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {leaderboardData.length > 0 ? (
-                          leaderboardData.map(
-                            ({ id, score, name, nftToken, popularity }) => (
-                              <tr key={id}>
-                                <td>{name}</td>
-                                <td>{score}</td>
-                                <td>{nftToken}</td>
-                                <td>{popularity}</td>
-                              </tr>
-                            )
-                          )
-                        ) : (
-                          <tr>
-                            <td colSpan="4" className="text-center">
-                              No Data Available
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </ScrollView>
-              </div>
-            )}
-          </WindowContent>
-        </ScrollView> */}
       </Window>
     </Draggable>
   );

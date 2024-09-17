@@ -32,12 +32,12 @@ export const desktopApps = [
   {
     name: "LeaderBoard",
     href: "https://bazar.arweave.net",
-    icon: <ShieldBan fill="gray" height={45} width={45} />,
+    icon: "/assets/Leaderboard.png",
   },
   {
     name: "Bazar",
     href: "https://bazar.arweave.net",
-    icon: <BazarIcon height={45} width={45} />,
+    icon: "/assets/bazar.png",
   },
 ];
 
@@ -53,44 +53,44 @@ export const contributors = [
     "name": "Ayush aka",
     "role": "Full-Stack Dev",
     "image": {
-      "src": { Ayush },
+      "src": "/assets/Satyansh.png",
       "alt": "Ayush",
       "width": 1000,
       "height": 1000,
-      "className": "w-[35%] h-[40%] rounded-3xl"
+      "className": "w-[35%] h-[40%]  mix-blend-color-burn"
+    }
+  },
+  {
+    "name": "Satyansh",
+    "role": "Front-End Designer",
+    "image": {
+      "src": "/assets/Ayush.png",
+      "alt": "Anukul",
+      "width": 1000,
+      "height": 1000,
+      "className": "w-[35%] h-[40%] rounded-3xl mix-blend-color-burn"
     }
   },
   {
     "name": "Anukul",
-    "role": "Front-End Designer",
-    "image": {
-      "src": { Anukul },
-      "alt": "Anukul",
-      "width": 1000,
-      "height": 1000,
-      "className": "w-[35%] h-[40%] rounded-3xl"
-    }
-  },
-  {
-    "name": "Satynash",
     "role": "Web3 Backend",
     "image": {
-      "src": { Satyansh },
+      "src": '/assets/Anukul.png',
       "alt": "Satynash",
       "width": 1000,
       "height": 1000,
-      "className": "w-[35%] h-[40%] rounded-3xl"
+      "className": "w-[35%] h-[40%] rounded-3xl mix-blend-color-burn"
     }
   },
   {
     "name": "Rahul",
     "role": "Web3 Backend",
     "image": {
-      "src": { Rahul },
+      "src": "/assets/Rahul.png",
       "alt": "Rahul",
       "width": 1000,
       "height": 1000,
-      "className": "w-[35%] h-[40%] rounded-3xl"
+      "className": "w-[35%] h-[40%] rounded-3xl mix-blend-color-burn"
     }
   }
 ]

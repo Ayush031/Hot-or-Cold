@@ -15,19 +15,26 @@ import Image from "next/image";
 const profile = [
   {
     name: "Ayush",
-    Image: "/assets/Satyansh.png"
+    Image: "/assets/Satyansh.png",
+    href: "https://x.com/aykansal"
   },
   {
     name: "Satyansh",
-    Image: "/assets/Ayush.png"
+    Image: "/assets/Ayush.png",
+    href: "https://x.com/satyansh_mittal"
   },
   {
     name: "Rahul",
-    Image: "/assets/Rahul.png"
+    Image: "/assets/Rahul.png",
+    href: "https://x.com/Rahulsainlll"
+
+
   },
   {
     name: "Anukul",
-    Image: "/assets/Anukul.png"
+    Image: "/assets/Anukul.png",
+    href: "https://x.com/ayosheisTHICC"
+
   },
 ]
 
@@ -70,28 +77,18 @@ export default function Page() {
               }}
               onClick={() => setOpen(false)}
             >
-              {/* <MenuListItem onClick={() => setOpen(false)}>
-                <span className="mr-[1vw]" role="img" aria-label="👨‍💻">
-                  👨‍💻
-                </span>
-                About us
-              </MenuListItem> */}
+          
               {profile.map((item, idx) => (
                 <MenuListItem key={idx}>
                 <span role="img" aria-label="📁">
                   <Image src={item.Image} alt="pussy" width={300} height={300}  className="size-8 mix-blend-color-burn mr-2"/>
                 </span>
-                <p>{item.name}</p>
+                <a href={item.href}>{item.name}</a>
               </MenuListItem>
               ))}
               
               <Separator />
-              {/* <MenuListItem>
-                <span role="img" aria-label="🔙">
-                  🔙
-                </span>
-                <DisconnectButton variant={"thin"} />
-              </MenuListItem> */}
+             
             </MenuList>
           )}
         </div>
