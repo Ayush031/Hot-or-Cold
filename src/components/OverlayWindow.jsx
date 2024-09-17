@@ -2,7 +2,7 @@
 import { X } from "lucide-react";
 import Draggable from "react-draggable";
 import { useEffect, useState } from "react";
-import { dryrun } from '@permaweb/aoconnect/browser';
+import { dryrun } from "@permaweb/aoconnect/browser";
 import {
   Button,
   Frame,
@@ -21,32 +21,29 @@ export default function OverlayWindow({
   index,
   tokenscore,
 }) {
-
-
   const [TokenScores, setTokenScores] = useState({});
   useEffect(() => {
-      const GetScore = async () => {
-        try {
-          const result = await dryrun({
-            process: "P0Hw4GQzawz8y6Jk4JhGxGkpi7sz6cvk0bmvXu_UwSs",
-            tags: [{ name: "Action", value: "Get" }],
-          });
+    const GetScore = async () => {
+      try {
+        const result = await dryrun({
+          process: "P0Hw4GQzawz8y6Jk4JhGxGkpi7sz6cvk0bmvXu_UwSs",
+          tags: [{ name: "Action", value: "Get" }],
+        });
 
-          if (result.Messages[0].Data) {
-            const Scores = JSON.parse(result.Messages[0].Data);
-            setTokenScores(Scores);
-          } else {
-            console.error("No data found in result.Messages");
-          }
-        } catch (error) {
-          console.error("Error fetching scores:", error);
+        if (result.Messages[0].Data) {
+          const Scores = JSON.parse(result.Messages[0].Data);
+          setTokenScores(Scores);
+        } else {
+          console.error("No data found in result.Messages");
         }
-      };
-      GetScore();
-    }, [TokenScores]);
+      } catch (error) {
+        console.error("Error fetching scores:", error);
+      }
+    };
+    GetScore();
+  }, [TokenScores]);
 
-    console.log(TokenScores);
-
+  console.log(TokenScores);
 
   const [bounds, setBounds] = useState({
     left: 0,
@@ -163,40 +160,56 @@ export default function OverlayWindow({
             )}
             {app.name === "LeaderBoard" && (
               <div className="w-full h-full flex flex-col gap-4">
-              <h1 className="text-center font-bold text-2xl">LeaderBoard</h1>
-              <ScrollView className="h-[80%]">
-                <div className="w-full h-full px-3 flex">
-                  
+                <h1 className="text-center font-bold text-2xl">LeaderBoard</h1>
+                <ScrollView className="h-[80%]">
+                  <div className="w-full h-full px-3 flex">
                     <div>
-                    <div className="font-semibold pb-2 text-center mr-[40%] ">
-                      Token
-                    </div>
-                      {Object.entries(TokenScores).map(([key, value]) => (
-                       
-                        <div key={key} className=" w-full ">
-                            <a href={`https://bazar.ar.io/#/asset/${key}`}>{key}</a>
-                        </div> 
-                      ))}
-                      </div>
-
-
-                        <div className="ml-9">
                       <div className="font-semibold pb-2 text-center mr-[40%] ">
-                      ranking
-                    </div>
-                    <div>
+                        Token
+                      </div>
                       {Object.entries(TokenScores).map(([key, value]) => (
-                        <div key={key} className=" w-full text-center ">
-                            <div>{value}</div>
-                        </div> 
+                        <div key={key} className=" w-full py-5 ">
+                          <a href={`https://bazar.ar.io/#/asset/${key}`}>
+                            {key}
+                          </a>
+                          
+                        </div>
                       ))}
-                      </div>
+                    </div>
 
+                    <div className="ml-9">
+                      <div className="font-semibold pb-2 text-center mr-[40%] ">
+                        ranking
                       </div>
-                </div>
-              </ScrollView>
-            </div>
-            
+                      <div>
+                        {Object.entries(TokenScores).map(([key, value]) => (
+                          <div key={key} className=" w-full text-center py-5 ">
+                            <div>{value}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="ml-9">
+                      <div className="font-semibold pb-2 text-center mr-[40%] ">
+                        Images
+                      </div>
+                      <div>
+                        {Object.entries(TokenScores).map(([key, value]) => (
+                          <div key={key} className=" w-full  text-center py-4 ">
+                            <div
+                            className="size-10 bg-contain mx-auto "
+                            style={{
+                              backgroundImage: `url(https://arweave.net/${key})`,
+                            }}
+                          />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </ScrollView>
+              </div>
             )}
           </WindowContent>
         </ScrollView>
