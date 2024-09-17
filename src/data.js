@@ -28,13 +28,13 @@ export const desktopApps = [
   {
     name: "About us",
     href: "https://bazar.arweave.net",
-    icon: <BazarIcon height={45} width={45} />,
+    icon: "/assets/aboutUs.png",
   },
   {
     name: "LeaderBoard",
     href: "https://bazar.arweave.net",
-    icon: <Shield height={45} width={45} />,
+    icon: "/assets/leaderBoard.png",
   },
 ];
 
-export const processId = "qXjKuUAqnzi9vXmGgZ-U3KExQv1J8UqQ-zZYDwfYCHQ";
+export const processId = "P0Hw4GQzawz8y6Jk4JhGxGkpi7sz6cvk0bmvXu_UwSs";

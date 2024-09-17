@@ -163,10 +163,10 @@ export default () => {
               <span>Bazar</span>
             </Button>
           </Link>
-          <Link href="/leaderboard" target="_blank">
+          <Link href="/" target="_blank">
             <Button variant="raised" className="flex items-center gap-3">
               <Shield height={22} width={22} />
-              <span>Leaderboard</span>
+              <span>Home</span>
             </Button>
           </Link>
           <ConnectButton />
