@@ -186,13 +186,6 @@ export default function OverlayWindow({
                     </div>
                     <div>
                       {Object.entries(TokenScores).map(([key, value]) => (
-                        // <tr key={key} className="text-center w-full bg-red-400 ">
-                        //   <td>{key}</td>
-                        //   <td className="text-center">{value}</td> {/* Assuming value has a 'ranking' field */}
-                        //   <td>{value.token}</td> {/* Assuming value has a 'token' field */}
-                        //   <td>{value.popularity}</td> {/* Assuming value has a 'popularity' field */}
-                        // </tr>
-                        
                         <div key={key} className=" w-full text-center ">
                             <div>{value}</div>
                         </div> 
@@ -200,11 +193,6 @@ export default function OverlayWindow({
                       </div>
 
                       </div>
-
-
-                       
-                    {/* </tbody> */}
-                  {/* </table> */}
                 </div>
               </ScrollView>
             </div>

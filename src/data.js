@@ -31,7 +31,6 @@ export const desktopApps = [
   },
   {
     name: "LeaderBoard",
-    href: "https://bazar.arweave.net",
     icon: "/assets/Leaderboard.png",
   },
   {
