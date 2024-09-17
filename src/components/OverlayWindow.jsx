@@ -17,6 +17,7 @@ import {
   WindowHeader,
 } from "react95";
 import Image from "next/image";
+import { contributors } from "@/data";
 
 export default function OverlayWindow({
   app,
@@ -77,7 +78,7 @@ export default function OverlayWindow({
         className={`absolute window-header
 
           ${app.name === "LeaderBoard" && "w-[800px] h-[550px]"}
-           ${app.name === "About us" && "w-[900px] h-[500px]"}
+           ${app.name === "About" && "w-[900px] h-[500px]"}
 
         `}
         style={{ zIndex: index + 1 }}
@@ -92,84 +93,99 @@ export default function OverlayWindow({
         </Frame>
         <ScrollView className="h-[92%] overflow-hidden">
           <WindowContent className="p-4 flex ">
-            {app.name === "About us" && (
+            {app.name === "About" && (
               <div className="flex flex-col">
-                <div className="  flex justify-evenly items-center mb-4">
-                  <div>
+                <div className="flex justify-evenly items-center mb-4">
+                  <div className="w-[40%] h-[70%]">
                     <Image
-                      className="w-[40%] h-[70%]"
-                      alt="about"
+                      className="w-full h-full object-contain"
+                      alt="bazarmash_logo"
                       src={st}
                       width={1000}
                       height={1000}
                     />
                   </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <h1>Netscape Navigator</h1>
-                    <h1> version 2.01</h1>
-                    <p>Copyright @ 1994-1995 baZarMash</p>
-                    <p>
-                      This software is subject to licence aggrements, Pleasease
-                      in the name of love ~ love me
+                  <ScrollView className="flex flex-col justify-center items-center">
+                    <h1 className="text-2xl font-bold">Netscape Navigator</h1>
+                    <h2 className="text-xl">Version 2.01</h2>
+                    <p className="text-center">
+                      Copyright © 1994-1995 baZarMash
                     </p>
-                    <p>Report any problem through ur mom</p>
-                  </div>
+                    <p className="text-center">
+                      This software is subject to license agreements. Please, in
+                      the name of love ~ love me
+                    </p>
+                    <p className="text-center">
+                      Report any problems through your mom
+                    </p>
+                  </ScrollView>
                 </div>
-                <div className="flex flex-row gap-5 justify items-center">
-                  <div className="flex flex-col justify-center items-center">
-                    <Image
-                      className="w-[35%] h-[40%] rounded-3xl"
-                      alt="about"
-                      src={sl}
-                      width={1000}
-                      height={1000}
-                    ></Image>
-                    <h1>Ayush aka </h1>
-                    <p>Full-Stack Dev</p>
-                  </div>
-
-                  <div className="flex flex-col justify-center items-center">
-                    <Image
-                      className="w-[35%] h-[40%] rounded-3xl"
-                      alt="about"
-                      src={so}
-                      width={1000}
-                      height={1000}
-                    ></Image>
-                    <h1>Anukul</h1>
-                    <p>Front-End Designer</p>
-                  </div>
-                  <div className="flex flex-col justify-center items-center">
-                    <Image
-                      className="w-[35%] h-[40%] rounded-3xl"
-                      alt="about"
-                      src={si}
-                      width={1000}
-                      height={1000}
-                    ></Image>
-                    <h1>Satynash </h1>
-                    <p> Web3 Backend</p>
-                  </div>
-                  <div className="flex flex-col justify-center items-center ">
-                    <Image
-                      className="w-[35%] h-[40%] rounded-3xl"
-                      alt="about"
-                      src={si}
-                      width={1000}
-                      height={1000}
-                    ></Image>
-                    <h1>Rahul </h1>
-                    <p>Web3 Backend</p>
-                  </div>
+                <div className="flex flex-row gap-5 justify-center items- ">
+                  {contributors.map(({ name, role, image }) => (
+                    <div
+                      key={name}
+                      className="flex flex-col justify-center items-center m-4"
+                    >
+                      <Image
+                        className="w-[35%] h-[40%] rounded-3xl"
+                        alt={image.alt}
+                        src={image.src}
+                        width={image.width}
+                        height={image.height}
+                      />
+                      <h1 className="text-lg font-semibold">{name}</h1>
+                      <p className="text-sm">{role}</p>
+                    </div>
+                  ))}
                 </div>
+              </div>
+            )}
+            {app.name === "LeaderBoard" && (
+              <div className="w-full h-full flex flex-col gap-4">
+                <h1 className="text-center font-bold text-2xl">LeaderBoard</h1>
+                <ScrollView className="h-[80%]">
+                  <div className="w-full h-full">
+                    <table className="w-full">
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Ranking</th>
+                          <th>NFT Token</th>
+                          <th>Popularity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {leaderboardData.length > 0 ? (
+                          leaderboardData.map(
+                            ({ id, score, name, nftToken, popularity }) => (
+                              <tr key={id}>
+                                <td>{name}</td>
+                                <td>{score}</td>
+                                <td>{nftToken}</td>
+                                <td>{popularity}</td>
+                              </tr>
+                            )
+                          )
+                        ) : (
+                          <tr>
+                            <td colSpan="4" className="text-center">
+                              No Data Available
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </ScrollView>
               </div>
             )}
           </WindowContent>
         </ScrollView>
-        <ScrollView className="h-[92%]">
+        {/* <ScrollView className="h-[92%]">
           <WindowContent className="p-4 h-full">
-            {app.name === "About us" && (
+            {app.name === "About" && (
               <div className="w-full text-center">
+                
                 <div className="w-full">
                   <Image
                     alt="about"
@@ -245,7 +261,7 @@ export default function OverlayWindow({
               </div>
             )}
           </WindowContent>
-        </ScrollView>
+        </ScrollView> */}
       </Window>
     </Draggable>
   );

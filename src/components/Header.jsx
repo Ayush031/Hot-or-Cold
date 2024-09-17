@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { desktopApps } from "@/data";
 import { useState, useEffect } from "react";
 import OverlayWindow from "./OverlayWindow";
@@ -76,7 +75,7 @@ export default function Header({ tokenScore }) {
         <Link href="/game">
           <div className="select-none w-32">
             <img src="/bazarmash.png" alt="bazarmash_logo" />
-            <h1 className="font-semibold text-center">BazARmash</h1>
+            <h1 className="font-semibold text-center">game.exe</h1>
           </div>
         </Link>
         {desktopApps.map((app) => (
@@ -89,7 +88,7 @@ export default function Header({ tokenScore }) {
                 ? "bg-white/35"
                 : ""
             } ${selectedApp === app ? "bg-white/35" : ""}`}
-            key={app.name} 
+            key={app.name}
             onClick={() => handleIconClick(app)}
             onDoubleClick={() => handleAppClick(app)}
           >
