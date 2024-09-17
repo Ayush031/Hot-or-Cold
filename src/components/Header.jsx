@@ -4,6 +4,7 @@ import Link from "next/link";
 import { desktopApps } from "@/data";
 import { useState, useEffect } from "react";
 import OverlayWindow from "./OverlayWindow";
+import Image from "next/image";
 
 export default function Header({ tokenScore }) {
   const [openApps, setOpenApps] = useState([]);

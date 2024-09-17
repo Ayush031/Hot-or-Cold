@@ -1,13 +1,12 @@
 "use client";
 
-import { Copyright, X } from "lucide-react";
+import { X } from "lucide-react";
 import Draggable from "react-draggable";
 import { useEffect, useState } from "react";
 import {
   Button,
   Frame,
   ScrollView,
-  Separator,
   Window,
   WindowContent,
   WindowHeader,
@@ -22,7 +21,12 @@ export default function OverlayWindow({
   index,
   tokenscore,
 }) {
-  const [bounds, setBounds] = useState({ left: 0, top: 0, right: 0, bottom: 0 });
+  const [bounds, setBounds] = useState({
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+  });
 
   useEffect(() => {
     const updateBounds = () => {
@@ -53,9 +57,9 @@ export default function OverlayWindow({
       ? Object.entries(tokenscore).map(([id, score]) => ({
           id,
           score,
-          name: id, // Placeholder for name; replace with actual names if available
-          nftToken: "N/A", // Placeholder for NFT Token; replace with actual data if available
-          popularity: score, // Use the score as popularity
+          name: id,
+          nftToken: "N/A",
+          popularity: score,
         }))
       : [];
 
@@ -91,7 +95,7 @@ export default function OverlayWindow({
                     <Image
                       className="w-full h-full object-contain"
                       alt="bazarmash_logo"
-                      src={st}
+                      src={"/bazarmash.png"}
                       width={1000}
                       height={1000}
                     />
@@ -146,24 +150,7 @@ export default function OverlayWindow({
                         </tr>
                       </thead>
                       <tbody>
-                        {leaderboardData.length > 0 ? (
-                          leaderboardData.map(
-                            ({ id, score, name, nftToken, popularity }) => (
-                              <tr key={id}>
-                                <td>{name}</td>
-                                <td>{score}</td>
-                                <td>{nftToken}</td>
-                                <td>{popularity}</td>
-                              </tr>
-                            )
-                          )
-                        ) : (
-                          <tr>
-                            <td colSpan="4" className="text-center">
-                              No Data Available
-                            </td>
-                          </tr>
-                        )}
+                        {/* Leaderboard Data Table */}
                       </tbody>
                     </table>
                   </div>
