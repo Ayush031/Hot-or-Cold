@@ -169,7 +169,7 @@ export default function OverlayWindow({
                       </div>
                       {Object.entries(TokenScores).map(([key, value]) => (
                         <div key={key} className=" w-full py-5 ">
-                          <a href={`https://bazar.ar.io/#/asset/${key}`}>
+                          <a href={`https://bazar.ar.io/#/asset/${key}`} className="text-blue-500 underline">
                             {key}
                           </a>
                           

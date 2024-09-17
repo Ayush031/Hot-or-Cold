@@ -61,7 +61,7 @@ export const contributors = [
   },
   {
     "name": "Satyansh",
-    "role": "Front-End Designer",
+    "role": "Web 3 Backend",
     "image": {
       "src": "/assets/Ayush.png",
       "alt": "Anukul",
@@ -72,7 +72,7 @@ export const contributors = [
   },
   {
     "name": "Anukul",
-    "role": "Web3 Backend",
+    "role": "Front-End Desinger",
     "image": {
       "src": '/assets/Anukul.png',
       "alt": "Satynash",
