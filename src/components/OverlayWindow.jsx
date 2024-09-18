@@ -165,56 +165,11 @@ export default function OverlayWindow({
                 <h1 className="text-center font-bold text-2xl">LeaderBoard</h1>
                 <ScrollView className="h-[80%]">
                   <div className="w-full h-full px-3 flex flex-col">
-                    {/* <div>
-                      <div className="font-semibold pb-2 text-center mr-[40%] ">
-                        Token
-                      </div>
-                      {Object.entries(TokenScores).map(([key, value]) => (
-                        <div key={key} className=" w-full py-5 ">
-                          <a href={`https://bazar.ar.io/#/asset/${key}`} className="text-blue-500 underline">
-                            {key}
-                          </a>
-                          
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="ml-9">
-                      <div className="font-semibold pb-2 text-center mr-[40%] ">
-                        ranking
-                      </div>
-                      <div>
-                        {Object.entries(TokenScores).map(([key, value]) => (
-                          <div key={key} className=" w-full text-center py-5 ">
-                            <div>{value}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="ml-9">
-                      <div className="font-semibold pb-2 text-center mr-[40%] ">
-                        Images
-                      </div>
-                      <div>
-                        {Object.entries(TokenScores).map(([key, value]) => (
-                          <div key={key} className=" w-full  text-center py-4 ">
-                            <div
-                            className="size-10 bg-contain mx-auto "
-                            style={{
-                              backgroundImage: `url(https://arweave.net/${key})`,
-                            }}
-                          />
-                          </div>
-                        ))}
-                      </div>
-                    </div> */}
-
                     <div className="w-full px-20  flex justify-center ">
                       <div className="font-semibold pb-2 text-center  w-[40%] ">
                         Token
                       </div>
-                      <div className="font-semibold  pb-2 text-center pl-20  w-[30%] ">
+                      <div className="font-semibold  pb-2 text-center pl-24  w-[30%] ">
                         Ranking
                       </div>
                       <div className="font-semibold pb-2  pl-28 text-center w-[30%] ">
@@ -223,7 +178,7 @@ export default function OverlayWindow({
                     </div>
                     <div>
                       {Object.entries(TokenScores)
-                        .sort(([, a], [, b]) => b - a) 
+                        .sort(([, a], [, b]) => b - a)
                         .map(([key, value]) => (
                           <div
                             key={key}
