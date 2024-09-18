@@ -13,6 +13,7 @@ import {
 } from "react95";
 import Image from "next/image";
 import { contributors } from "@/data";
+import Link from "next/link";
 
 export default function OverlayWindow({
   app,
@@ -98,6 +99,7 @@ export default function OverlayWindow({
 
           ${app.name === "LeaderBoard" && "w-[900px] h-[550px]"}
            ${app.name === "About" && "w-[900px] h-[500px]"}
+           ${app.name === "Bazar" && "w-[500px] h-[300px]"}
 
         `}
         style={{ zIndex: index + 1 }}
@@ -211,6 +213,9 @@ export default function OverlayWindow({
                 </ScrollView>
               </div>
             )}
+            {
+              app.name==="Bazar" && (<h1><Link target="_blank" href="https://bazar.arweave.dev" >Visit Bazar</Link></h1>)
+            }
           </WindowContent>
         </ScrollView>
       </Window>

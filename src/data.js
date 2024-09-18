@@ -31,7 +31,7 @@ export const desktopApps = [
   },
   {
     name: "LeaderBoard",
-    icon: "/assets/Leaderboard.png",
+    icon: "/assets/leaderBoard.png",
   },
   {
     name: "Bazar",
@@ -41,11 +41,6 @@ export const desktopApps = [
 ];
 
 export const processId = "qXjKuUAqnzi9vXmGgZ-U3KExQv1J8UqQ-zZYDwfYCHQ";
-
-import Ayush from "../public/assets/67.png";
-import Anukul from "../public/assets/68.png";
-import Satyansh from "../public/assets/70.png";
-import Rahul from "../public/assets/70.png";
 
 export const contributors = [
   {
