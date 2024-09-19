@@ -75,7 +75,13 @@ export default function Header({ tokenScore }) {
       <div className="flex flex-col gap-6">
         <Link href="/game">
           <div className="select-none w-32 ">
-              <Image src={"/bazarmash.png"} width={300} height={300} className="size-20 mx-auto" alt="icon"/>
+            <Image
+              src={"/bazarmash.png"}
+              width={300}
+              height={300}
+              className="size-20 mx-auto"
+              alt="icon"
+            />
             <h1 className="font-semibold text-center text-[12px]">BazARmash</h1>
           </div>
         </Link>
@@ -94,7 +100,13 @@ export default function Header({ tokenScore }) {
             onDoubleClick={() => handleAppClick(app)}
           >
             <div className="flex flex-col justify-center items-center select-none">
-              <Image src={app.icon} height={300} width={300 } className="size-12 mx-auto" alt="icon"/>
+              <Image
+                src={app.icon}
+                height={300}
+                width={300}
+                className="size-12 mx-auto"
+                alt="icon"
+              />
               <h1 className="font-semibold text-[12px] mt-2">{app.name}</h1>
             </div>
           </div>
