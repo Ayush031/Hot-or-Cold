@@ -1,6 +1,8 @@
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ArweaveWalletKit } from "arweave-wallet-kit";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = {
   title: "BazARmash",
@@ -24,6 +26,8 @@ export default function RootLayout({ children }) {
       >
         <ArweaveWalletKit>
           <main>{children}</main>
+          <Analytics />
+          <SpeedInsights />
           <Toaster />
         </ArweaveWalletKit>
       </body>
