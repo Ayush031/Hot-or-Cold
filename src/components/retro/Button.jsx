@@ -44,13 +44,13 @@ export function Default() {
       <br />
       <Button active>Active</Button>
       <br />
-      <Button square>
+      <Button > {/*square */}
         <span role="img" aria-label="recycle">
           ♻︎
         </span>
       </Button>
       <br />
-      <Button fullwidth>Full width</Button>
+      <Button fullWidth>Full width</Button>
       <br />
       <Button size="sm">Size small</Button>
       <Button size="lg">Size large</Button>

@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Main } from "@/hooks/fetch";
+import { processId } from "@/data";
 import { useToast } from "@/hooks/use-toast";
 import { ThemeProvider } from "styled-components";
 import original from "react95/dist/themes/original";
 import { ConnectButton } from "@/components/Buttons";
-import { useConnection } from "arweave-wallet-kit";
 import { message, createDataItemSigner } from "@permaweb/aoconnect";
 import { dryrun } from "@permaweb/aoconnect";
 import {
@@ -29,11 +29,9 @@ import {
   Shield,
 } from "lucide-react";
 import { BazarIcon } from "@/components/icons";
-import { processId } from "@/data";
 
 export default () => {
   const { toast } = useToast();
-  const { connected } = useConnection();
   const [tokens, setTokens] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTokenPair, setCurrentTokenPair] = useState([null, null]);
@@ -51,6 +49,7 @@ export default () => {
   useEffect(() => {
     const fetchTokens = async () => {
       const tokenList = await Main();
+      // console.log(tokenList);
       const shuffledTokens = shuffleTokens(tokenList);
       setTokens(shuffledTokens);
       if (shuffledTokens.length > 1) {
@@ -77,6 +76,7 @@ export default () => {
 
     fetchTokens();
   }, []);
+  
   useEffect(() => {
     const GetScore = async () => {
       try {
@@ -97,8 +97,6 @@ export default () => {
     };
     GetScore();
   }, [TokenScore]);
-
-  console.log("TokenScore", TokenScore);
 
   const updateVote = async (selectedToken) => {
     if (isLoading) return;

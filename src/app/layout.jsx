@@ -22,6 +22,8 @@ export default function RootLayout({ children }) {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          height: "100vh",
+          width: "100vw",
         }}
       >
         <ArweaveWalletKit>

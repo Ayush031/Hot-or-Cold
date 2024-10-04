@@ -9,8 +9,9 @@ export const Main = async (excludedTokens = []) => {
     });
 
     const asset = JSON.parse(result.Messages[0].Data);
+    // const asset2 = JSON.parse(result.Messages[0].Data);
+    console.log(asset);
     const some = [];
-
     asset.Orderbook.forEach((element) => {
       some.push(element.Orders);
     });
@@ -22,7 +23,6 @@ export const Main = async (excludedTokens = []) => {
       });
     });
 
-    // Filter out excluded tokens
     const filteredTokens = tokens.filter(token => !excludedTokens.includes(token));
     const uniqueTokens = [...new Set(filteredTokens)];
 

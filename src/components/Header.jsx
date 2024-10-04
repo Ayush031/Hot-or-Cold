@@ -85,6 +85,18 @@ export default function Header({ tokenScore }) {
             <h1 className="font-semibold text-center text-[12px]">BazARmash</h1>
           </div>
         </Link>
+        <Link href="/nft-analysis">
+          <div className="select-none w-32 ">
+            <Image
+              src={"/assets/nft-analysis.png"}
+              width={300}
+              height={300}
+              className="size-20 mx-auto"
+              alt="icon"
+            />
+            <h1 className="font-semibold text-center text-[12px]">Stock NFT</h1>
+          </div>
+        </Link>
         {desktopApps.map((app) => (
           <div
             role="button"
@@ -111,7 +123,7 @@ export default function Header({ tokenScore }) {
             </div>
           </div>
         ))}
-        {openApps.map((app, index) => (
+        {openApps.map((app) => (
           <OverlayWindow
             key={app.name}
             app={app}
