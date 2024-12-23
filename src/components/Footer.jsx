@@ -33,7 +33,7 @@ const profile = [
   {
     name: "Anukul",
     Image: "/assets/Anukul.png",
-    href: "https://x.com/ayosheisTHICC"
+    href: "https://x.com/anukulKun"
 
   },
 ]
